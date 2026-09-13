@@ -1,54 +1,59 @@
 # @konitif/workbench
 
-## Build and distribution
+Product-neutral workspace composition, docking, registries and hosting
+contracts for KONITIF applications.
 
-Run `npm run build` to produce `dist` with the locked TypeScript compiler. The
-published contract exposes compiled ESM and declarations only. Run `npm test`
-then `npm run verify:package`; the latter packs the exact payload and consumes
-all four public entries from an isolated Node ESM/NodeNext fixture.
+## Installation
 
-The build does not install dependencies or publish. Release remains a separate,
-protected operation after the repository and archive have been qualified.
+```sh
+npm install @konitif/workbench
+```
 
-Product-neutral Workbench authority for workspace composition, docking,
-registries, persistence ports and shell lifecycle contracts.
+## What it provides
 
-The package hosts tools and widgets through generic definitions. It must not
-depend on a private product package or specialize product-specific behavior.
+- Workspace, layout, panel and shell contracts.
+- Tool and widget admission, registries and hosting adapters.
+- Runtime lifecycle, checkpoint, recovery and observability contracts.
+- Project preflight and repository-quality contracts.
+- Explicit workspace persistence, synchronization and surface ports.
 
-## Product color policy migration
+## Authority boundary
 
-The development barrel no longer exports `getRobotJointColor`. Consumers must
-obtain their color policy from their product layer; generic viewers accept an
-injected color provider. This is a source API change, with no persisted-data migration.
-No compatibility reexport is provided because Workbench must not depend on a
-product package. This migration does not publish either package.
+Workbench owns product-neutral workspace and runtime coordination contracts. It
+does not own product tools, UI projections, robot models or application policy.
+Widgets and tools retain their own definitions; Workbench admits and hosts them.
+Physical implementations remain in `@konitif/physics` and are only exposed here
+through a compatibility entry.
 
-Widget definitions and lazy bindings belong to `@konitif/widgets`.
-Workbench provides `createWorkbenchWidgetAdapter` to project an admitted
-definition into its hosting contract without loading or registering it.
-Widget registries, zones, placements and docking helpers remain here.
-Consumers of the former Widgets facade should import these host contracts
-from `@konitif/workbench`; no persisted placement migration is required.
+## Quick start
 
-## Selected workspace contracts
+```ts
+import { createWorkspace, validateWorkspace } from '@konitif/workbench/hosting';
 
-`@konitif/workbench/workspace-contracts` exposes an explicit selection of
-workspace, shell, layout and tool-state contracts for state orchestration.
-It reexports the existing implementations without including audio, HTTP or
-local-storage adapters. The root entry and `hosting` remain compatible.
-This source-level boundary is tested; standalone archive qualification and
-publication remain separate gates.
+const workspace = createWorkspace();
+const issues = validateWorkspace(workspace);
 
-## Transitional headless physics entry
+if (issues.length > 0) {
+  console.error(issues);
+}
+```
 
-`@konitif/workbench/physics-runtime` forwards `PhysicsService`,
-`NoopPhysicsBackend` and physical contracts to the published `@konitif/physics`
-package. Their implementations do not live in Workbench.
-Consumers inject backend factories and explicitly drive stepping and disposal.
-No worker, engine binary, visual alignment or product configuration is loaded
-by this entry. The former UI paths reexport the same classes for compatibility.
+## Public entry points
 
-This is a compatibility boundary, not a permanent Workbench responsibility.
-Backend identifiers and source shapes
-remain unchanged; the no-op backend does not simulate physical effects.
+| Entry | Purpose |
+| --- | --- |
+| `@konitif/workbench` | Complete Workbench contract surface. |
+| `@konitif/workbench/hosting` | Focused workspace hosting operations. |
+| `@konitif/workbench/workspace-contracts` | State-orchestration contracts without host adapters. |
+| `@konitif/workbench/physics-runtime` | Transitional forwarding entry for headless Physics contracts. |
+
+## Reference
+
+See [`reference/`](reference/) for the machine-readable capability catalog and
+authority diagrams. Layout state and executable composition remain distinct
+authorities even when projected by the same application shell.
+
+## License
+
+Source-available under [PolyForm Noncommercial 1.0.0](LICENSE.md), not OSI open
+source. Commercial use requires separate written authorization.

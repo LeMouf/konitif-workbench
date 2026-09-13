@@ -39,7 +39,7 @@ if (process.platform === 'win32') {
 const [packed] = JSON.parse(output);
 const files = packed.files.map(file => file.path).sort();
 assert.deepEqual(checkCompiledPackageFiles(files), { unexpected: [], missing: [] });
-assert.equal(files.length, 373);
+assert.equal(files.length, 376);
 const archive = join(evidence, packed.filename);
 const bytes = readFileSync(archive);
 assert.equal(packed.integrity, `sha512-${createHash('sha512').update(bytes).digest('base64')}`);

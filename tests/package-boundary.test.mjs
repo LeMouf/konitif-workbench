@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { test } from 'node:test';
+import { fileURLToPath } from 'node:url';
 
 const manifest = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
 
@@ -15,11 +16,11 @@ test('manifest is public, compiled and independent from workspace locators', () 
       assert.doesNotMatch(version, /^(?:workspace:|file:|link:|\.\.?[\\/])/);
     }
   }
-  assert.deepEqual(manifest.files, ['dist', 'LICENSE.md', 'README.md', 'package.json']);
+  assert.deepEqual(manifest.files, ['dist', 'LICENSE.md', 'README.md', 'package.json', 'reference']);
 });
 
 test('sources contain no application or partner namespace', () => {
-  const root = new URL('../src/', import.meta.url);
+  const root = fileURLToPath(new URL('../src/', import.meta.url));
   const files = [];
   function walk(directory) {
     for (const entry of readdirSync(directory, { withFileTypes: true })) {
@@ -28,7 +29,7 @@ test('sources contain no application or partner namespace', () => {
       else if (entry.name.endsWith('.ts')) files.push(path);
     }
   }
-  walk(root.pathname);
+  walk(root);
   assert.ok(files.length > 150);
   const privateProductPattern = /@maxtronics\/|packages\/maxtronics-|behavior-studio|Behavior Studio|\bapps\/|\bnao(?:qi)?\b|aldebaran|softbank/i;
   for (const file of files) {
