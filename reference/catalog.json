@@ -1,96 +1,214 @@
 {
   "schemaVersion": "1.0.0",
   "package": "@konitif/workbench",
-  "intent": "Fournir les contrats et autorités d'un environnement de travail composable indépendant de ses projections UI.",
+  "intent": "Provide the contracts and authorities of a composable work environment independently of its UI projections.",
   "clusters": [
     {
       "id": "runtime-domain",
-      "title": "Autorité runtime",
-      "summary": "Lifecycle, plans, checkpoints, observations, suspension et reprise d'une exécution Workbench.",
-      "authority": "État canonique de session runtime, distinct de la définition exécutée et de ses projections.",
-      "owns": ["sessions runtime", "transitions de lifecycle", "observations corrélées"],
-      "doesNotOwn": ["composition authored", "layout du workspace", "effet physique externe"],
-      "workflow": ["Admettre", "Exécuter", "Observer", "Reprendre"],
-      "sourcePrefixes": ["domain/runtime/"]
+      "title": "Runtime authority",
+      "summary": "Lifecycle, plans, checkpoints, observations, suspension, and resumption of a Workbench execution.",
+      "authority": "Canonical runtime session state, distinct from the executed definition and its projections.",
+      "owns": [
+        "runtime sessions",
+        "lifecycle transitions",
+        "correlated observations"
+      ],
+      "doesNotOwn": [
+        "authored composition",
+        "workspace layout",
+        "external physical effect"
+      ],
+      "workflow": [
+        "Admit",
+        "Execute",
+        "Observe",
+        "Resume"
+      ],
+      "sourcePrefixes": [
+        "domain/runtime/"
+      ]
     },
     {
       "id": "composition-domain",
-      "title": "Composition exécutable",
-      "summary": "Plans et assemblages canoniques qui décrivent ce qui peut être exécuté indépendamment de leur éditeur.",
-      "authority": "Artefact de composition versionné et commandable.",
-      "owns": ["structure exécutable", "révision sémantique", "dépendances"],
-      "doesNotOwn": ["positions visuelles", "session runtime", "résultat dérivé"],
-      "workflow": ["Déclarer", "Valider", "Versionner", "Dériver"],
-      "sourcePrefixes": ["domain/composition/"]
+      "title": "Executable composition",
+      "summary": "Canonical plans and assemblies that describe what can be executed independently of their editor.",
+      "authority": "Versioned, commandable composition artifact.",
+      "owns": [
+        "executable structure",
+        "semantic revision",
+        "dependencies"
+      ],
+      "doesNotOwn": [
+        "visual positions",
+        "runtime session",
+        "derived result"
+      ],
+      "workflow": [
+        "Declare",
+        "Validate",
+        "Version",
+        "Derive"
+      ],
+      "sourcePrefixes": [
+        "domain/composition/"
+      ]
     },
     {
       "id": "workspace-layout-domain",
-      "title": "Workspace et disposition",
-      "summary": "Organisation des surfaces, panels, zones et interactions spatiales d'un espace de travail.",
-      "authority": "Configuration du workspace, séparée du sens des sujets ouverts.",
-      "owns": ["arbre de layout", "panels", "modes et préférences"],
-      "doesNotOwn": ["composition exécutée", "état interne des outils"],
-      "workflow": ["Composer", "Disposer", "Persister", "Réhydrater"],
-      "sourcePrefixes": ["domain/workspace/", "domain/layout/", "domain/panel/", "domain/workbench/"]
+      "title": "Workspace and layout",
+      "summary": "Organization of surfaces, panels, zones, and spatial interactions in a work environment.",
+      "authority": "Workspace configuration, separate from the meaning of open subjects.",
+      "owns": [
+        "layout tree",
+        "panels",
+        "modes and preferences"
+      ],
+      "doesNotOwn": [
+        "executed composition",
+        "internal tool state"
+      ],
+      "workflow": [
+        "Compose",
+        "Arrange",
+        "Persist",
+        "Rehydrate"
+      ],
+      "sourcePrefixes": [
+        "domain/workspace/",
+        "domain/layout/",
+        "domain/panel/",
+        "domain/workbench/"
+      ]
     },
     {
       "id": "extensions-domain",
-      "title": "Outils, widgets et surfaces",
-      "summary": "Contrats d'extension qui permettent au Workbench d'héberger des capacités sans les posséder.",
-      "authority": "Admission et résolution de contributions product-neutral.",
-      "owns": ["contrats d'extension", "identités de contribution", "capacités requises"],
-      "doesNotOwn": ["implémentation du produit partenaire", "rendu UI concret"],
-      "workflow": ["Définir", "Enregistrer", "Résoudre", "Héberger"],
-      "sourcePrefixes": ["domain/tool/", "domain/widget/", "domain/surface/"]
+      "title": "Tools, widgets, and surfaces",
+      "summary": "Extension contracts that let the Workbench host capabilities without owning them.",
+      "authority": "Admission and resolution of product-neutral contributions.",
+      "owns": [
+        "extension contracts",
+        "contribution identities",
+        "required capabilities"
+      ],
+      "doesNotOwn": [
+        "partner product implementation",
+        "concrete UI rendering"
+      ],
+      "workflow": [
+        "Define",
+        "Register",
+        "Resolve",
+        "Host"
+      ],
+      "sourcePrefixes": [
+        "domain/tool/",
+        "domain/widget/",
+        "domain/surface/"
+      ]
     },
     {
       "id": "project-launch-domain",
-      "title": "Projet, lancement et dépôt",
-      "summary": "Contrats d'identification, préflight, qualité et admission d'un projet dans le Workbench.",
-      "authority": "Décision d'admission du projet et diagnostics associés.",
-      "owns": ["manifestes projet", "étapes de lancement", "diagnostics de dépôt"],
-      "doesNotOwn": ["contenu du dépôt", "preuve de validité générale"],
-      "workflow": ["Identifier", "Inspecter", "Qualifier", "Admettre"],
-      "sourcePrefixes": ["domain/project/", "domain/launch/", "domain/repository/", "domain/repo-quality/", "domain/experiment/"]
+      "title": "Project, launch, and repository",
+      "summary": "Contracts for identifying, preflighting, qualifying, and admitting a project into the Workbench.",
+      "authority": "Project admission decision and associated diagnostics.",
+      "owns": [
+        "project manifests",
+        "launch steps",
+        "repository diagnostics"
+      ],
+      "doesNotOwn": [
+        "repository content",
+        "proof of general validity"
+      ],
+      "workflow": [
+        "Identify",
+        "Inspect",
+        "Qualify",
+        "Admit"
+      ],
+      "sourcePrefixes": [
+        "domain/project/",
+        "domain/launch/",
+        "domain/repository/",
+        "domain/repo-quality/",
+        "domain/experiment/"
+      ]
     },
     {
       "id": "temporal-physics-domain",
-      "title": "Temps, physique et entrée",
-      "summary": "Contrats de coordonnées, historiques, calculs physiques et entrées utilisés par les capacités hébergées.",
-      "authority": "Modèles partagés de calcul et de coordination, sans propriété du matériel externe.",
-      "owns": ["coordonnées temporelles", "modèles physiques", "intentions d'entrée"],
-      "doesNotOwn": ["horloge système", "robot physique", "périphérique"],
-      "workflow": ["Décrire", "Calculer", "Échantillonner", "Observer"],
-      "sourcePrefixes": ["domain/temporal/", "domain/physics/", "domain/input/", "domain/robot/"]
+      "title": "Time, physics, and input",
+      "summary": "Coordinate, history, physics calculation, and input contracts used by hosted capabilities.",
+      "authority": "Shared calculation and coordination models without ownership of external hardware.",
+      "owns": [
+        "temporal coordinates",
+        "physics models",
+        "input intents"
+      ],
+      "doesNotOwn": [
+        "system clock",
+        "physical robot",
+        "device"
+      ],
+      "workflow": [
+        "Describe",
+        "Calculate",
+        "Sample",
+        "Observe"
+      ],
+      "sourcePrefixes": [
+        "domain/temporal/",
+        "domain/physics/",
+        "domain/input/",
+        "domain/robot/"
+      ]
     },
     {
       "id": "presentation-foundations",
-      "title": "Fondations de présentation",
-      "summary": "Langue, icônes, design system, shell et métadonnées de présentation indépendantes des composants.",
-      "authority": "Contrats de présentation consommables par plusieurs projections.",
-      "owns": ["descripteurs", "traductions", "identités visuelles"],
-      "doesNotOwn": ["DOM", "composants Svelte", "état métier"],
-      "workflow": ["Déclarer", "Résoudre", "Projeter"],
-      "sourcePrefixes": ["domain/i18n/", "domain/icon/", "domain/design-system/", "domain/presentation/", "domain/shell/", "domain/shared/"]
+      "title": "Presentation foundations",
+      "summary": "Language, icons, design system, shell, and presentation metadata independent of components.",
+      "authority": "Presentation contracts consumable by multiple projections.",
+      "owns": [
+        "descriptors",
+        "translations",
+        "visual identities"
+      ],
+      "doesNotOwn": [
+        "DOM",
+        "Svelte components",
+        "business state"
+      ],
+      "workflow": [
+        "Declare",
+        "Resolve",
+        "Project"
+      ],
+      "sourcePrefixes": [
+        "domain/i18n/",
+        "domain/icon/",
+        "domain/design-system/",
+        "domain/presentation/",
+        "domain/shell/",
+        "domain/shared/"
+      ]
     },
     {
       "id": "workspace-application",
-      "title": "Application workspace",
-      "summary": "Cas d'usage de composition et manipulation des espaces de travail.",
-      "authority": "Orchestration applicative du workspace.",
+      "title": "Workspace application",
+      "summary": "Use cases for composing and manipulating workspaces.",
+      "authority": "Application orchestration of the workspace.",
       "owns": [
-        "routage de commandes",
+        "command routing",
         "sessions",
         "snapshots"
       ],
       "doesNotOwn": [
-        "modèle domaine",
-        "composants UI"
+        "domain model",
+        "UI components"
       ],
       "workflow": [
-        "Recevoir",
-        "Coordonner",
-        "Projeter"
+        "Receive",
+        "Coordinate",
+        "Project"
       ],
       "sourcePrefixes": [
         "application/workspace/",
@@ -100,21 +218,21 @@
     },
     {
       "id": "runtime-application",
-      "title": "Application runtime",
-      "summary": "Plans, observations, checkpoints et offload du runtime Workbench.",
-      "authority": "Coordination runtime observable.",
+      "title": "Runtime application",
+      "summary": "Plans, observations, checkpoints, and offload for the Workbench runtime.",
+      "authority": "Observable runtime coordination.",
       "owns": [
         "plans",
         "checkpoints",
-        "observabilité"
+        "observability"
       ],
       "doesNotOwn": [
-        "effet métier externe"
+        "external business effect"
       ],
       "workflow": [
-        "Planifier",
-        "Exécuter",
-        "Observer"
+        "Plan",
+        "Execute",
+        "Observe"
       ],
       "sourcePrefixes": [
         "application/runtime/"
@@ -122,21 +240,21 @@
     },
     {
       "id": "registries-and-project",
-      "title": "Projet et registres",
-      "summary": "Manifestes et registres qui résolvent les capacités disponibles.",
-      "authority": "Admission et résolution applicatives.",
+      "title": "Project and registries",
+      "summary": "Manifests and registries that resolve available capabilities.",
+      "authority": "Application-level admission and resolution.",
       "owns": [
-        "manifestes",
-        "registres",
-        "traductions"
+        "manifests",
+        "registries",
+        "translations"
       ],
       "doesNotOwn": [
-        "implémentations enregistrées"
+        "registered implementations"
       ],
       "workflow": [
-        "Déclarer",
-        "Enregistrer",
-        "Résoudre"
+        "Declare",
+        "Register",
+        "Resolve"
       ],
       "sourcePrefixes": [
         "application/project/",
@@ -146,22 +264,22 @@
     },
     {
       "id": "experiments-and-preflight",
-      "title": "Expérimentation et préflight",
-      "summary": "Campagnes contrôlées, enregistrement des observations et vérification préalable des dépôts.",
-      "authority": "Protocole d'expérience et décision de préflight explicites.",
+      "title": "Experiments and preflight",
+      "summary": "Controlled campaigns, observation recording, and preliminary repository verification.",
+      "authority": "Explicit experiment protocol and preflight decision.",
       "owns": [
-        "campagnes",
-        "observations expérimentales",
-        "diagnostics de dépôt"
+        "campaigns",
+        "experimental observations",
+        "repository diagnostics"
       ],
       "doesNotOwn": [
-        "résultat scientifique général",
-        "contenu du dépôt"
+        "general scientific result",
+        "repository content"
       ],
       "workflow": [
-        "Préparer",
-        "Exécuter",
-        "Enregistrer"
+        "Prepare",
+        "Execute",
+        "Record"
       ],
       "sourcePrefixes": [
         "application/experiment/",
@@ -171,20 +289,20 @@
     {
       "id": "infrastructure",
       "title": "Infrastructure",
-      "summary": "Adaptateurs de persistance et communication remplaçables.",
-      "authority": "Implémentation de ports, non autorité du domaine.",
+      "summary": "Replaceable persistence and communication adapters.",
+      "authority": "Port implementation, not domain authority.",
       "owns": [
-        "adaptateurs",
+        "adapters",
         "transport",
-        "stockage"
+        "storage"
       ],
       "doesNotOwn": [
-        "règles métier"
+        "business rules"
       ],
       "workflow": [
-        "Adapter",
-        "Transmettre",
-        "Restituer"
+        "Adapt",
+        "Transmit",
+        "Restore"
       ],
       "sourcePrefixes": [
         "infrastructure/"
@@ -192,21 +310,21 @@
     },
     {
       "id": "temporal",
-      "title": "Structures temporelles",
-      "summary": "Contrats temporels spécialisés du Workbench.",
-      "authority": "Modèle temporel partagé.",
+      "title": "Temporal structures",
+      "summary": "Workbench-specific temporal contracts.",
+      "authority": "Shared temporal model.",
       "owns": [
-        "coordonnées",
-        "dialectes",
+        "coordinates",
+        "dialects",
         "projections"
       ],
       "doesNotOwn": [
-        "horloge externe"
+        "external clock"
       ],
       "workflow": [
-        "Déclarer",
-        "Résoudre",
-        "Projeter"
+        "Declare",
+        "Resolve",
+        "Project"
       ],
       "sourcePrefixes": [
         "temporal/"
@@ -214,21 +332,21 @@
     },
     {
       "id": "boot-and-stage",
-      "title": "Initialisation et staging",
-      "summary": "Préparer une session et ses changements avant admission.",
-      "authority": "Préparation réversible.",
+      "title": "Initialization and staging",
+      "summary": "Prepares a session and its changes before admission.",
+      "authority": "Reversible preparation.",
       "owns": [
         "boot",
         "preflight",
         "staging"
       ],
       "doesNotOwn": [
-        "état engagé"
+        "committed state"
       ],
       "workflow": [
-        "Préparer",
-        "Vérifier",
-        "Admettre"
+        "Prepare",
+        "Verify",
+        "Admit"
       ],
       "sourcePrefixes": [
         "boot/",
