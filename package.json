@@ -1,0 +1,57 @@
+{
+  "name": "@konitif/workbench",
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "version": "0.284.1",
+  "description": "Product-neutral workspace composition, docking, registries and hosting contracts for KONITIF.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeMouf/konitif-workbench.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "private": false,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./hosting": {
+      "types": "./dist/hosting.d.ts",
+      "import": "./dist/hosting.js"
+    },
+    "./physics-runtime": {
+      "types": "./dist/physics-runtime.d.ts",
+      "import": "./dist/physics-runtime.js"
+    },
+    "./workspace-contracts": {
+      "types": "./dist/workspace-contracts.d.ts",
+      "import": "./dist/workspace-contracts.js"
+    }
+  },
+  "files": [
+    "dist",
+    "LICENSE.md",
+    "README.md",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "verify:package": "node scripts/verify-package.mjs"
+  },
+  "dependencies": {
+    "@konitif/tools": "0.284.3",
+    "@konitif/physics": "0.284.1",
+    "@konitif/widgets": "0.285.0",
+    "@konitif/temporal": "0.284.1",
+    "@konitif/core": "0.284.2"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3"
+  }
+}

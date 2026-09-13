@@ -1,0 +1,131 @@
+{
+  "schemaVersion": "1.0.0",
+  "package": "@konitif/workbench",
+  "diagrams": [
+    {
+      "id": "workbench-authority-flow",
+      "title": "Du projet à la projection Workbench",
+      "kind": "mechanism",
+      "summary": "Les contrats du Workbench séparent admission du projet, état du workspace, exécution et observation.",
+      "nodes": [
+        {
+          "id": "manifest",
+          "label": "Manifeste projet",
+          "description": "Les capacités requises et fournies sont déclarées."
+        },
+        {
+          "id": "registry",
+          "label": "Registres",
+          "description": "Outils, widgets et dialectes compatibles sont résolus."
+        },
+        {
+          "id": "workspace",
+          "label": "Workspace",
+          "description": "Panels, sessions et artefacts sont coordonnés."
+        },
+        {
+          "id": "plan",
+          "label": "Plan runtime",
+          "description": "Une exécution admise est préparée.",
+          "tone": "runtime"
+        },
+        {
+          "id": "observation",
+          "label": "Observation",
+          "description": "Checkpoints, diagnostics et effets rapportés sont capturés.",
+          "tone": "observation"
+        },
+        {
+          "id": "projection",
+          "label": "Projection UI",
+          "description": "Les surfaces rendent l'état manipulable.",
+          "tone": "projection"
+        }
+      ],
+      "edges": [
+        {
+          "from": "manifest",
+          "to": "registry"
+        },
+        {
+          "from": "registry",
+          "to": "workspace"
+        },
+        {
+          "from": "workspace",
+          "to": "plan"
+        },
+        {
+          "from": "plan",
+          "to": "observation"
+        },
+        {
+          "from": "observation",
+          "to": "projection"
+        }
+      ],
+      "caption": "Le Workbench reste utilisable par ses contrats même si sa projection UI courante disparaît."
+    },
+    {
+      "id": "five-authority-planes",
+      "title": "Les cinq plans à ne pas confondre",
+      "kind": "boundary",
+      "summary": "Une composition supérieure reste explicite lorsque chaque état possède une autorité unique et une durée de vie identifiable.",
+      "nodes": [
+        {"id":"artifact","label":"Artefact exécutable","description":"Identité, structure et révision du sujet à réaliser."},
+        {"id":"workspace","label":"Workspace","description":"Surfaces, disposition, modes et préférences de travail."},
+        {"id":"editable","label":"Projection éditable","description":"Sélection, zoom, positions et brouillons locaux.","tone":"projection"},
+        {"id":"derived","label":"Artefact dérivé","description":"Résultat reproductible identifié par ses sources et sa configuration.","tone":"observation"},
+        {"id":"session","label":"Session runtime","description":"Lifecycle courant, commandes admises, effets et observations.","tone":"runtime"}
+      ],
+      "edges":[{"from":"artifact","to":"workspace"},{"from":"workspace","to":"editable"},{"from":"editable","to":"derived"},{"from":"derived","to":"session"}],
+      "caption":"Ces plans coopèrent mais ne se transmettent jamais silencieusement leur identité ou leur autorité."
+    },
+    {
+      "id": "workspace-command-roundtrip",
+      "title": "Aller-retour d'une modification sémantique",
+      "kind": "lifecycle",
+      "summary": "Une projection éditable demande un changement ; seule l'autorité canonique peut créer la révision ensuite observée par les surfaces.",
+      "nodes": [
+        {"id":"gesture","label":"Geste dans une surface","description":"L'utilisateur manipule une projection.","tone":"projection"},
+        {"id":"intent","label":"Intention typée","description":"Le geste est traduit sans muter le domaine."},
+        {"id":"route","label":"Routage de commande","description":"La capacité et son autorité sont résolues."},
+        {"id":"commit","label":"Commit canonique","description":"La commande admise produit une nouvelle révision.","tone":"runtime"},
+        {"id":"snapshot","label":"Snapshot observable","description":"Le nouvel état est publié aux lecteurs.","tone":"observation"},
+        {"id":"reproject","label":"Reprojection","description":"Toutes les surfaces légitimes convergent vers cette lecture.","tone":"projection"}
+      ],
+      "edges":[{"from":"gesture","to":"intent"},{"from":"intent","to":"route"},{"from":"route","to":"commit"},{"from":"commit","to":"snapshot"},{"from":"snapshot","to":"reproject"}],
+      "caption":"Un resize, un zoom ou un déplacement purement visuel s'arrête dans la projection et ne suit pas ce cycle."
+    },
+    {
+      "id": "derived-artifact-invalidation",
+      "title": "Produire et invalider un artefact dérivé",
+      "kind": "mechanism",
+      "summary": "Le Workbench peut réutiliser un résultat uniquement lorsque toutes les sources qui déterminent ce résultat correspondent encore.",
+      "nodes": [
+        {"id":"sources","label":"Sources versionnées","description":"Révision canonique, assets et dépendances sont identifiés."},
+        {"id":"configuration","label":"Configuration","description":"Évaluateur, runtime et conditions pertinentes complètent la clé."},
+        {"id":"key","label":"Clé de dérivation","description":"L'identité reproductible du calcul est construite."},
+        {"id":"result","label":"Résultat dérivé","description":"Le calcul et ses observations utiles sont préservés.","tone":"observation"},
+        {"id":"reuse","label":"Réutiliser ou recalculer","description":"Une clé égale autorise la lecture ; une dépendance modifiée invalide son cône.","tone":"runtime"}
+      ],
+      "edges":[{"from":"sources","to":"configuration"},{"from":"configuration","to":"key"},{"from":"key","to":"result"},{"from":"result","to":"reuse"}],
+      "caption":"Une modification de layout n'invalide pas un résultat sémantique indépendant."
+    },
+    {
+      "id": "refresh-and-recovery",
+      "title": "Refresh, reconnexion et reprise idempotente",
+      "kind": "lifecycle",
+      "summary": "La reprise distingue configuration persistée, autorité relue et session compatible afin d'éviter les doubles commandes et doubles révisions.",
+      "nodes": [
+        {"id":"persisted","label":"Configuration persistée","description":"Layout, préférences et références sont restaurés."},
+        {"id":"reread","label":"Relire les autorités","description":"Les états externes et canoniques sont vérifiés avant affichage."},
+        {"id":"resolve","label":"Résoudre la session","description":"Une session compatible est reprise ou une nouvelle est explicitement créée."},
+        {"id":"reconcile","label":"Réconcilier","description":"Cached, stale, unknown, ready et failed restent distingués.","tone":"runtime"},
+        {"id":"observe","label":"Publier la lecture","description":"La projection reçoit un snapshot cohérent sans duplication.","tone":"observation"}
+      ],
+      "edges":[{"from":"persisted","to":"reread"},{"from":"reread","to":"resolve"},{"from":"resolve","to":"reconcile"},{"from":"reconcile","to":"observe"}],
+      "caption":"Une observation répétée et équivalente ne crée ni nouvelle session, ni commande, ni révision."
+    }
+  ]
+}
