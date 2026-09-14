@@ -84,14 +84,14 @@
       "id": "extensions-domain",
       "title": "Tools, widgets, and surfaces",
       "summary": "Extension contracts that let the Workbench host capabilities without owning them.",
-      "authority": "Admission and resolution of product-neutral contributions.",
+      "authority": "Admission and resolution of portable contributions.",
       "owns": [
         "extension contracts",
         "contribution identities",
         "required capabilities"
       ],
       "doesNotOwn": [
-        "partner product implementation",
+        "hosted domain implementation",
         "concrete UI rendering"
       ],
       "workflow": [
@@ -130,8 +130,7 @@
         "domain/project/",
         "domain/launch/",
         "domain/repository/",
-        "domain/repo-quality/",
-        "domain/experiment/"
+        "domain/repo-quality/"
       ]
     },
     {
@@ -146,7 +145,7 @@
       ],
       "doesNotOwn": [
         "system clock",
-        "physical robot",
+        "external physical subject",
         "device"
       ],
       "workflow": [
@@ -158,8 +157,7 @@
       "sourcePrefixes": [
         "domain/temporal/",
         "domain/physics/",
-        "domain/input/",
-        "domain/robot/"
+        "domain/input/"
       ]
     },
     {
@@ -283,7 +281,8 @@
       ],
       "sourcePrefixes": [
         "application/experiment/",
-        "application/repository/"
+        "application/repository/",
+        "domain/experiment/"
       ]
     },
     {
@@ -311,7 +310,7 @@
     {
       "id": "temporal",
       "title": "Temporal structures",
-      "summary": "Workbench-specific temporal contracts.",
+      "summary": "Workbench compatibility contracts over the independent temporal layer.",
       "authority": "Shared temporal model.",
       "owns": [
         "coordinates",

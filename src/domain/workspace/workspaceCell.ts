@@ -72,7 +72,7 @@ export interface WorkspaceCellDeclaration {
 const workspaceCellIdentity = {
   id: 'workbench.workspace',
   label: 'Workspace',
-  source: 'packages/workbench-core/src/domain/workspace',
+  source: 'src/domain/workspace',
   description: 'Structural host module for windows, layout trees, panels, tool instances, widget zones, and persisted workspace snapshots.'
 } as const satisfies WorkspaceCellIdentity;
 
