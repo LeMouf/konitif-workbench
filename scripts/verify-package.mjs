@@ -15,7 +15,7 @@ assert.equal(manifest.name, '@konitif/workbench');
 assert.equal(manifest.private, false);
 assert.deepEqual(manifest.dependencies, {
   '@konitif/tools': '0.284.3',
-  '@konitif/physics': '0.284.1',
+  '@konitif/physics': '0.285.0',
   '@konitif/widgets': '0.285.0',
   '@konitif/temporal': '0.284.1',
   '@konitif/core': '0.284.2',

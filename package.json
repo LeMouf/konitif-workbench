@@ -1,8 +1,8 @@
 {
   "name": "@konitif/workbench",
   "license": "PolyForm-Noncommercial-1.0.0",
-  "version": "0.284.2",
-  "description": "Product-neutral workspace composition, docking, registries and hosting contracts for KONITIF.",
+  "version": "0.285.0",
+  "description": "Workspace composition, docking, registries and hosting contracts for KONITIF.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LeMouf/konitif-workbench.git"
@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@konitif/tools": "0.284.3",
-    "@konitif/physics": "0.284.1",
+    "@konitif/physics": "0.285.0",
     "@konitif/widgets": "0.285.0",
     "@konitif/temporal": "0.284.1",
     "@konitif/core": "0.284.2"

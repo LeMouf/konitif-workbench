@@ -13,5 +13,5 @@ npm test
 npm run verify:package
 ```
 
-Keep product tools, UI projections and application policy outside Workbench.
+Keep hosted domain modules, UI projections and application policy outside Workbench.
 Follow `RELEASE.md` for publication.

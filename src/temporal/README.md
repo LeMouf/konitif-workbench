@@ -1,54 +1,48 @@
-# Temporal Core
+# Temporal compatibility surface
 
-Socle temporel transversal pour camera, timeline, animation, audio, vidéo, shader, simulation et viewers.
+This directory contains Workbench-facing temporal adapters. Generic clock,
+transport, scheduling, invalidation and history mechanics are provided by
+`@konitif/temporal`; the Workbench layer preserves established entry paths and
+adds only host-specific coordination.
 
-Les moteurs génériques sont désormais dans le dépôt autonome `@konitif/temporal`.
-Les anciens chemins réexportent les mêmes implémentations, sans copie. Cette façade
-conserve l'historique spécialisé et le scheduler navigateur. Temporal est destiné
-à une publication publique, encore désactivée pendant sa préparation. En développement,
-une jonction locale référence le checkout autonome ; le commit attendu est déclaré
-dans `config/repositories.json` et vérifié par `scripts/link-temporal-development.mjs`.
-Le contrôle refuse un checkout divergent ou modifié sans le réinitialiser.
-La distribution utilise la version npm exacte validée. Le manifeste source de
-Workbench reste verrouillé avec `private: true`; seul son build compilé explicite
-est un candidat public.
+## Authority boundary
 
-## Résolution des horloges du transport
+The supplied `ClockGraph` owns adapter resolution. Callers own clock sources,
+media sources, scheduler hosts and shared-history lifecycle. Workbench adapters
+must not create a second time authority or make a temporal projection own the
+history it displays.
 
-Le `ClockGraph` fourni est la source des adaptateurs. L'horloge de sortie
-(`clockId`, `root` par défaut) doit être enregistrée avant de créer le transport.
-Une horloge source de `seek` doit être enregistrée avant la commande ; elle peut
-être ajoutée au graphe après la création du transport.
+## Transport clock resolution
 
-Une référence inconnue provoque une erreur explicite `TemporalTransport`.
-Un `seek` refusé pour ce motif ne modifie ni la position, ni l'état, ni les
-horodatages et ne notifie pas les abonnés. Il ne convertit plus silencieusement
-une valeur d'une horloge inconnue en secondes.
+The output clock (`clockId`, `root` by default) must be registered before the
+transport is created. A clock referenced by `seek` must be registered before
+that command; it may be added to the graph after transport creation.
 
-Compatibilité : enregistrer l'adaptateur avant utilisation, ou sélectionner
-explicitement `root` avec `unit: 'seconds'` si la valeur est réellement exprimée
-en secondes. Les identifiants connus, conversions et snapshots restent inchangés.
-L'unité omise dans `seek` reste `seconds`, même pour une sortie en frames.
+An unknown reference raises an explicit `TemporalTransport` error. A rejected
+seek does not change position, state or timestamps and does not notify
+subscribers. It never converts an unknown clock value to seconds implicitly.
 
-## Horloges média
+For compatibility, register the adapter before use or explicitly select `root`
+with `unit: 'seconds'` when the value is expressed in seconds. Omitting the unit
+from `seek` still means seconds, even when the output clock uses frames.
 
-Les fréquences effectives audio (`sampleRate`) et vidéo (`fps`) doivent être
-finies et strictement positives ; sinon la création lève `RangeError`, avant
-toute lecture temporelle. Les fréquences fractionnaires restent acceptées.
-La fréquence de la source audio prime sur l'option, puis le défaut est 48000.
-Les deux cadences sont capturées à la création, sans reconfiguration par mutation
-des options. Sans source, `now()` reste zéro pour compatibilité : c'est un mode
-de conversion statique, pas une preuve de mesure ou de synchronisation.
-Les sources restent possédées par l'hôte ; aucun lecteur n'est démarré.
+## Media clock inputs
 
-## Scheduler et hôte
+Effective audio sample rate and video frame rate must be finite and strictly
+positive; invalid values raise `RangeError` before a temporal read. Fractional
+rates remain valid. The audio source rate takes precedence over the option, with
+48,000 Hz as the fallback.
 
-`createTemporalScheduler` conserve son API et son adaptateur navigateur par
-défaut. `documentIsVisible` reste accessible depuis `visibilityPolicy`.
-Le moteur `scheduler/temporalSchedulerCore` ne dépend ni du DOM ni de cet
-adaptateur ; il reçoit un `TemporalSchedulerHost` explicite.
+Rates are captured at creation. Without a source, `now()` remains zero as a
+static conversion mode; this is not evidence of measurement or
+synchronization. Sources remain owned by the caller and no reader is started
+implicitly.
 
-Pour une boucle externe sans navigateur :
+## Scheduler host
+
+`createTemporalScheduler` retains its browser-oriented compatibility adapter.
+The independent `scheduler/temporalSchedulerCore` receives an explicit
+`TemporalSchedulerHost` and has no DOM dependency.
 
 ```ts
 import { createTemporalSchedulerCore } from './scheduler/temporalSchedulerCore';
@@ -56,37 +50,34 @@ import { createTemporalSchedulerCore } from './scheduler/temporalSchedulerCore';
 const scheduler = createTemporalSchedulerCore({
   transport,
   externalLoop: true,
-  onFrame(snapshot, deltaSeconds) { /* consommateur */ },
+  onFrame(snapshot, deltaSeconds) {
+    consume(snapshot, deltaSeconds);
+  },
 }, { isVisible: () => true });
+
 scheduler.start();
-scheduler.frame(1); // secondes dans le référentiel root du transport
+scheduler.frame(1);
 scheduler.stop();
 ```
 
-Un hôte qui pilote lui-même la boucle fournit `requestFrame` (callback
-asynchrone) et `cancelFrame`. La visibilité est une entrée de l'hôte, pas un
-accès navigateur caché du moteur. `frame()` reste utilisable indépendamment
-de `start()`/`stop()`, comme auparavant. Les politiques de visibilité conservent
-leur sémantique actuelle : `drop-elapsed` ajuste le delta de rendu, sans effacer
-le temps écoulé du transport. Aucun timer de secours n'est ajouté.
+An externally driven loop supplies `requestFrame` and `cancelFrame`. Visibility
+is a host input, not a hidden browser read. `frame()` remains usable independently
+of `start()` and `stop()`. The `drop-elapsed` policy adjusts rendering delta
+without erasing elapsed transport time.
 
-## Historique
+## History compatibility
 
-`createRuntimeHistoryRecorder` et les types `RuntimeHistory*` restent compatibles.
-Ils spécialisent le moteur indépendant `history/temporalHistoryCore`, qui accepte
-des données d'échantillons et d'événements typées sans connaître le viewer.
-Le raccordement produit continue de posséder l'enregistreur partagé : détruire
-une vue ne détruit pas l'historique de composition.
+`createRuntimeHistoryRecorder` and the `RuntimeHistory*` types specialize the
+independent immutable-history engine. They accept typed samples and events
+without depending on a particular Viewer. Destroying a projection must not
+destroy history owned by a longer-lived host.
 
-Attention aux unités : `timeSeconds` et `seek` utilisent des secondes ; `now`,
-`tick` et `recordedAt` utilisent des millisecondes. Cette distinction existante
-est conservée. Les entrées sont maintenant copiées profondément à l'admission puis
-gelées ; les lecteurs partagent ces valeurs immuables sans nouvelle copie profonde.
-Les payloads doivent être des données simples (objets, tableaux, primitives) ; les
-instances de classes, fonctions et accesseurs sont refusés. Les objets du producteur
-restent modifiables et les types de la façade conservent leur forme historique.
+`timeSeconds` and `seek` use seconds; `now`, `tick` and `recordedAt` use
+milliseconds. Inputs are detached and frozen at admission. Payloads must be
+plain data: primitives, arrays and plain objects are accepted; functions,
+accessors and class instances are rejected.
 
-## Exemple minimal
+## Minimal example
 
 ```ts
 import {
@@ -107,9 +98,7 @@ const scheduler = createTemporalScheduler({
   mode: 'balanced',
   visibilityPolicy: 'drop-elapsed',
   onFrame(snapshot, delta) {
-    // camera.update(delta)
-    // timeline.update(snapshot.position)
-    // renderer.render()
+    consume(snapshot, delta);
   },
 });
 

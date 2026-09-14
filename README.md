@@ -1,7 +1,7 @@
 # @konitif/workbench
 
-Product-neutral workspace composition, docking, registries and hosting
-contracts for KONITIF applications.
+Workspace composition, docking, registries and hosting contracts for KONITIF
+applications.
 
 ## Installation
 
@@ -19,8 +19,8 @@ npm install @konitif/workbench
 
 ## Authority boundary
 
-Workbench owns product-neutral workspace and runtime coordination contracts. It
-does not own product tools, UI projections, robot models or application policy.
+Workbench owns workspace and runtime coordination contracts. It does not own
+hosted domain modules, UI projections, model assets or application policy.
 Widgets and tools retain their own definitions; Workbench admits and hosts them.
 Physical implementations remain in `@konitif/physics` and are only exposed here
 through a compatibility entry.

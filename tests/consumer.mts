@@ -9,7 +9,12 @@ import {
   createWorkspace as createWorkspaceFromContracts,
   validateWorkspace,
 } from '@konitif/workbench/workspace-contracts';
-import { NoopPhysicsBackend, PhysicsService } from '@konitif/workbench/physics-runtime';
+import {
+  NoopPhysicsBackend,
+  PhysicsService,
+  type PhysicsServicePort,
+  type PhysicsSubjectSource,
+} from '@konitif/workbench/physics-runtime';
 
 export function exercise(): Workspace {
   const workspace = createWorkspace();
@@ -17,6 +22,8 @@ export function exercise(): Workspace {
   const registry = new InMemoryToolRegistry();
   const definition = null as unknown as ToolDefinition;
   void registry; void definition; void createHostedWorkspace; void createWorkspaceFromContracts;
-  void NoopPhysicsBackend; void PhysicsService;
+  const subject = null as unknown as PhysicsSubjectSource;
+  const loadSubject = null as unknown as PhysicsServicePort['loadSubject'];
+  void NoopPhysicsBackend; void PhysicsService; void subject; void loadSubject;
   return workspace;
 }

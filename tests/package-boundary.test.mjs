@@ -35,5 +35,6 @@ test('sources contain no application or partner namespace', () => {
   for (const file of files) {
     const source = readFileSync(file, 'utf8');
     assert.doesNotMatch(source, privateProductPattern, file);
+    assert.doesNotMatch(source, /\bRobotPhysicsSource\b|\bloadPhysicsRobot\b|\bvisualRobotId\b/, file);
   }
 });
