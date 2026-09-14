@@ -1,8 +1,8 @@
 # Release @konitif/workbench
 
 `LeMouf/konitif-workbench` is the sole release authority for
-`@konitif/workbench`. The package owns product-neutral workspace composition,
-docking, registries and hosting contracts. Product tools, UI projections and
+`@konitif/workbench`. The package owns workspace composition, docking,
+registries and hosting contracts. Hosted domain modules, UI projections and
 application presets remain consumers.
 
 ## Protected release path
@@ -43,5 +43,13 @@ to publish a branch. Dispatch from the exact tag ref and provide the same tag as
 input. Dispatching from `main` is intentionally refused.
 
 Never publish the monorepo source package, a directory with source exports,
-Workbench Runtime, a UI projection, product tools or application presets from
+Workbench Runtime, a UI projection, hosted domain modules or application presets from
 this repository.
+
+## Physics subject migration
+
+Version `0.285.0` forwards the generic Physics subject contract. Consumers of
+the transitional `@konitif/workbench/physics-runtime` entry must replace
+`RobotPhysicsSource` with `PhysicsSubjectSource` and call `loadSubject` instead
+of `loadRobot`. Physics `0.285.0` must therefore be available before this
+Workbench version is published.
