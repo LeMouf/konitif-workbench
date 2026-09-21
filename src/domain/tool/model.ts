@@ -1,6 +1,8 @@
 import type { JsonObject } from '../shared/json';
 import type { KonitifToolCapabilities } from '@konitif/core';
+import type { WorkbenchCatalogPresentation } from '../catalog/presentation';
 import type { WorkbenchIconInput } from '../icon/model';
+import type { WorkbenchCatalogElementVersion } from '../catalog/version';
 import type { ShellRegionId } from '../shell/model';
 import type { WorkbenchReadingLevel, WorkbenchReadingLevelPresentation } from '../presentation/readingLevel';
 
@@ -145,6 +147,8 @@ export interface ToolFullscreenCompanionChromePolicy {
 export interface ToolFullscreenCompanionBehaviorPolicy {
   pinned?: boolean;
   draggable?: boolean;
+  /** Allow the host's anchored, presentation-only resize handles. */
+  resizable?: boolean;
   collapsible?: boolean;
   passthroughWhenCollapsed?: boolean;
 }
@@ -168,6 +172,8 @@ export interface ToolFullscreenCompanionDefinition {
 
 export interface ToolDefinition {
   id: string;
+  version?: WorkbenchCatalogElementVersion;
+  catalogPresentation?: WorkbenchCatalogPresentation;
   title: string;
   icon?: WorkbenchIconInput;
   /**

@@ -1,5 +1,6 @@
 import {
   InMemoryToolRegistry,
+  admitWorkspaceUsageBundle,
   createWorkspace,
   type ToolDefinition,
   type Workspace,
@@ -22,6 +23,7 @@ export function exercise(): Workspace {
   const registry = new InMemoryToolRegistry();
   const definition = null as unknown as ToolDefinition;
   void registry; void definition; void createHostedWorkspace; void createWorkspaceFromContracts;
+  void admitWorkspaceUsageBundle;
   const subject = null as unknown as PhysicsSubjectSource;
   const loadSubject = null as unknown as PhysicsServicePort['loadSubject'];
   void NoopPhysicsBackend; void PhysicsService; void subject; void loadSubject;

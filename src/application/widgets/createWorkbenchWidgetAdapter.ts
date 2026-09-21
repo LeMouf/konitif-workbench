@@ -5,16 +5,21 @@ import type {
 } from '../../infrastructure/widgets/InMemoryWorkbenchWidgetRegistry';
 import { bindWidgetImplementation, type WidgetDefinitionCatalog } from '@konitif/widgets';
 
+export type WorkbenchWidgetDefinitionCatalogPort = Pick<WidgetDefinitionCatalog, 'getDefinition'>;
+
 export type WorkbenchWidgetHosting = Pick<WorkbenchWidgetDefinition,
   'icon' | 'supportedSurfaces' | 'presentation'>;
 
 /** Candidate bridge; neither registers nor loads, and owns no placement state. */
 export function createWorkbenchWidgetAdapter(
-  catalog: WidgetDefinitionCatalog,
+  catalog: WorkbenchWidgetDefinitionCatalogPort,
   widgetId: string,
   load: RegisteredWorkbenchWidgetComponentLoader
 ) {
-  const binding = bindWidgetImplementation(catalog, widgetId, load);
+  // Widgets currently gives its catalog nominal identity through a private Map,
+  // while this bridge only needs the public lookup capability. Keep the
+  // cross-version boundary structural and contain the nominal cast here.
+  const binding = bindWidgetImplementation(catalog as WidgetDefinitionCatalog, widgetId, load);
   return Object.freeze({
     source: binding.definition,
     project(host: WorkbenchWidgetHosting = {}): RegisteredWorkbenchWidget {

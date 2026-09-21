@@ -1,4 +1,6 @@
 import type { WorkbenchIconInput } from '../icon/model';
+import type { WorkbenchCatalogElementVersion } from '../catalog/version';
+import type { WorkbenchCatalogPresentation } from '../catalog/presentation';
 
 export type ShellRegionId = 'left' | 'right' | 'bottom';
 
@@ -18,6 +20,8 @@ export interface ShellRegionState {
   hiddenWidgetIds?: string[];
   presentation?: ShellRegionPresentation;
   axis?: ShellRegionAxis;
+  /** Relative track sizes, keyed by widget identity. */
+  widgetProportions?: Record<string, number>;
 }
 
 export interface ShellState {
@@ -31,6 +35,8 @@ export interface ShellWidgetPlacement {
 
 export interface ShellWidgetDefinition {
   id: string;
+  version?: WorkbenchCatalogElementVersion;
+  catalogPresentation?: WorkbenchCatalogPresentation;
   capabilityId?: string | null;
   title: string;
   icon?: WorkbenchIconInput;

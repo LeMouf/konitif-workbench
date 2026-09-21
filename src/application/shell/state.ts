@@ -69,6 +69,20 @@ export function setShellRegionArrangement(
   });
 }
 
+export function setShellRegionWidgetProportions(
+  shellState: ShellState,
+  regionId: ShellRegionId,
+  proportions: Record<string, number>
+): ShellState {
+  const region = shellState.regions[regionId];
+  if (!region) return shellState;
+  const widgetProportions = Object.fromEntries(region.widgetIds.flatMap(id => {
+    const value = proportions[id];
+    return typeof value === 'number' && Number.isFinite(value) && value > 0 ? [[id, value]] : [];
+  }));
+  return updateShellRegion(shellState, regionId, { ...region, widgetProportions });
+}
+
 export function createShellState(
   widgetCatalog: ShellWidgetCatalogPort,
   options: { openRegionIds?: ShellRegionId[] } = {}

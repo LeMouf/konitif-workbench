@@ -53,3 +53,10 @@ the transitional `@konitif/workbench/physics-runtime` entry must replace
 `RobotPhysicsSource` with `PhysicsSubjectSource` and call `loadSubject` instead
 of `loadRobot`. Physics `0.285.0` must therefore be available before this
 Workbench version is published.
+
+## Workspace usage admission
+
+Version `0.285.1` adds generic launch, catalog, preset-selection and immutable
+workspace-usage contracts. It also makes the source compiler boundary check
+portable across POSIX and Windows paths. These additions remain independent of
+hosted products and require no dependency-version change.
