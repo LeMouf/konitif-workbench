@@ -96,6 +96,16 @@ export class InMemoryToolRegistry implements ToolCatalogPort {
     return this.entries.get(toolId)?.definition;
   }
 
+  unregister(toolId: string): boolean {
+    if (!this.entries.delete(toolId)) return false;
+    this.registrationOrders.delete(toolId);
+    this.revision += 1;
+    for (const listener of [...this.revisionListeners]) {
+      if (this.revisionListeners.has(listener)) listener(this.revision);
+    }
+    return true;
+  }
+
   list(): RegisteredTool[] {
     return [...this.entries.values()];
   }

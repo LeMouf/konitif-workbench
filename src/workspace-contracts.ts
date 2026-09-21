@@ -2,6 +2,7 @@
 // Reexports preserve the authority and identity of the existing implementations.
 export {
   setShellRegionArrangement,
+  setShellRegionWidgetProportions,
   createShellState,
   setShellRegionVisible,
   setShellRegionOpen,
@@ -162,3 +163,21 @@ export {
 export {
   validateWorkspace
 } from './domain/workspace/validation';
+export * from './application/workspace/presetArtifacts';
+export * from './application/workspace/presetSelection';
+export * from './application/workspace/usageSnapshots';
+export * from './application/launch/workbenchLaunchPolicy';
+export * from './application/tool/experienceToolSelection';
+export * from './application/workspace/unassignTool';
+export * from './application/workspace/parkedTool';
+export * from './application/workspace/workspacePresetCatalogAdmission';
+export type { WorkbenchCatalogElementVersion } from './domain/catalog/version';
+export type { WorkbenchCatalogMedia, WorkbenchCatalogPresentation } from './domain/catalog/presentation';
+// Authored seed construction uses the same factories as the complete Workbench.
+export { createPanel, createStack, createSplit, createWorkspaceWindow, createWorkspaceShell } from './domain/workspace/factories';
+export { cloneJsonObject } from './domain/shared/json';
+export { createInitialToolShellState } from './domain/tool/shell';
+export { patchWorkbenchToolDockVisibilityState } from './domain/widget/toolDock';
+export type { ToolDefinition, ToolInstance, ToolCatalogPort } from './domain/tool/model';
+export type { ShellWidgetCatalogPort } from './domain/shell/model';
+export { InMemoryToolRegistry } from './infrastructure/tools/InMemoryToolRegistry';

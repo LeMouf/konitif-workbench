@@ -16,6 +16,7 @@ npm install @konitif/workbench
 - Runtime lifecycle, checkpoint, recovery and observability contracts.
 - Project preflight and repository-quality contracts.
 - Explicit workspace persistence, synchronization and surface ports.
+- Content-addressed workspace usage bundles with strict host-context admission.
 
 ## Authority boundary
 
@@ -24,6 +25,11 @@ hosted domain modules, UI projections, model assets or application policy.
 Widgets and tools retain their own definitions; Workbench admits and hosts them.
 Physical implementations remain in `@konitif/physics` and are only exposed here
 through a compatibility entry.
+
+Workspace presets remain authored source. A usage bundle records an immutable,
+content-addressed projection of a preset and its workspace, shell and focus
+fragments. Admission rejects altered content, incomplete fragments, incompatible
+host contexts and identity/revision conflicts.
 
 ## Quick start
 

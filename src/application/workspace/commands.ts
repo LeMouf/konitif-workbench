@@ -25,11 +25,13 @@ import { swapPanelArea } from './swapPanelArea';
 import { createPanel } from '../../domain/workspace/factories';
 import { updateActiveWindowRoot, updateStackById } from './layoutTree';
 import { createWorkspaceSessionState, getFocusedPanel, type WorkspaceSessionState } from './session';
+import { unassignTool } from './unassignTool';
 
 export type WorkspaceCommand =
   | { type: 'open-tool'; toolId: string }
   | { type: 'open-tool-in-panel'; panelId: string; toolId: string }
   | { type: 'open-tool-in-new-tab'; panelId: string; toolId: string }
+  | { type: 'unassign-tool'; toolId: string }
   | { type: 'split-panel-horizontal' }
   | { type: 'split-panel-vertical' }
   | {
@@ -95,6 +97,8 @@ export function dispatchWorkspaceCommand(
       return openToolInPanel(normalizedState, command.panelId, command.toolId, context.toolCatalog);
     case 'open-tool-in-new-tab':
       return openToolInNewTab(normalizedState, command.panelId, command.toolId, context.toolCatalog);
+    case 'unassign-tool':
+      return createWorkspaceSessionState(unassignTool(normalizedState.workspace, command.toolId), normalizedState.focus);
     case 'run-tool-shell-command':
       return runFocusedToolShellCommand(normalizedState, command, context.toolCatalog);
     case 'split-panel-horizontal':
