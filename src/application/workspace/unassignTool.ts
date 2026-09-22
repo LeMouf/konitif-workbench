@@ -18,7 +18,7 @@ export function unassignTool(workspace: Workspace, toolId: string): Workspace {
       ...window,
       root: updatePanelById(window.root, panel.id, current => ({
         ...current,
-        title: 'Welcome',
+        title: 'Untitled panel',
         toolInstanceId: null
       }))
     }));

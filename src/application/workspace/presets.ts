@@ -4,12 +4,10 @@ import { createWorkspace } from './createWorkspace';
 
 export type WorkspacePresetId = 'default';
 
-const DEFAULT_WORKSPACE_INITIAL_TOOL_ID = 'example.welcome';
-
 export function createWorkspaceFromPreset(toolCatalog: ToolCatalogPort, presetId: WorkspacePresetId = 'default') {
   switch (presetId) {
     case 'default':
-      return createWorkspace(toolCatalog, { initialToolId: DEFAULT_WORKSPACE_INITIAL_TOOL_ID });
+      return createWorkspace(toolCatalog);
   }
 }
 

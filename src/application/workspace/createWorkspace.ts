@@ -8,7 +8,7 @@ interface CreateWorkspaceOptions {
 }
 
 export function createWorkspace(toolCatalog?: ToolCatalogPort, options: CreateWorkspaceOptions = {}): Workspace {
-  const initialPanel = createPanel('Welcome');
+  const initialPanel = createPanel();
   const initialStack = createStack([initialPanel]);
   const initialWindow = createWorkspaceWindow(initialStack);
   const workspace = createWorkspaceShell(initialWindow);
