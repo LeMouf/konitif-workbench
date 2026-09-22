@@ -104,6 +104,10 @@
         "domain/tool/",
         "domain/widget/",
         "domain/surface/"
+      ],
+      "symbolNames": [
+        "createWorkbenchWidgetAdapter",
+        "WorkbenchWidgetHosting"
       ]
     },
     {
