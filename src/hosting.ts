@@ -10,6 +10,7 @@ export { exportWorkspaceSnapshot, importWorkspaceSnapshot } from './application/
 export { listPanelsInWorkspace } from './domain/workspace/selectors';
 export { validateWorkspace } from './domain/workspace/validation';
 export { InMemoryToolRegistry } from './infrastructure/tools/InMemoryToolRegistry';
+export type { RegisteredToolComponentLoader } from './infrastructure/tools/InMemoryToolRegistry';
 export type { Workspace } from './domain/workspace/model';
 export type { WorkspacePersistencePort } from './domain/workspace/persistence';
 export type { ToolDefinition, ToolInstance, ToolCatalogPort } from './domain/tool/model';

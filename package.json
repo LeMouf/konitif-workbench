@@ -1,7 +1,7 @@
 {
   "name": "@konitif/workbench",
   "license": "PolyForm-Noncommercial-1.0.0",
-  "version": "0.285.0",
+  "version": "0.285.2",
   "description": "Workspace composition, docking, registries and hosting contracts for KONITIF.",
   "repository": {
     "type": "git",
