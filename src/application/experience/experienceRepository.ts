@@ -57,6 +57,7 @@ export interface WorkbenchExperienceRepository<TMetadata = unknown, TSpecializat
     draft: WorkbenchExperienceDraft<TSpecialization>;
     expectedHeadRevisionId: ExperienceRevisionIdentity;
     revisionId: ExperienceRevisionIdentity;
+    derivedFrom?: ExperienceRevisionIdentity | null;
     metadata?: TMetadata;
   }): Promise<WorkbenchExperienceRepositoryResult<
     WorkbenchExperienceLifecycleValue<TMetadata, TSpecialization>

@@ -45,6 +45,10 @@ when that base is still the current head, and archive, restore and tombstone
 transitions are explicit. The repository contract is storage-neutral; browser,
 remote, tenant and product-admission policies remain host adapters.
 
+Workbench ships the generic browser adapter for that repository contract. A
+host selects its storage key and keeps product migration, metadata admission
+and domain specialization outside the adapter.
+
 ## Quick start
 
 ```ts

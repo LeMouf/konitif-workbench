@@ -114,6 +114,7 @@ export * from './domain/workspace/validation';
 export * from './infrastructure/audio/WorkbenchAudioManager';
 export * from './infrastructure/backend/HttpWorkbenchBackendClient';
 export * from './infrastructure/persistence/LocalWorkspacePersistence';
+export * from './infrastructure/persistence/BrowserExperienceRepository';
 export * from './infrastructure/surfaces/InMemorySurfaceViewerRegistry';
 export * from './infrastructure/temporal/InMemoryTemporalDialectRegistry';
 export * from './infrastructure/tools/InMemoryToolRegistry';
