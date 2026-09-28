@@ -152,6 +152,20 @@ test('Experience archive, restore and tombstone transitions are explicit and irr
   assert.equal(refused.diagnostics[0]?.code, 'experience.lifecycle.inactive');
 });
 
+test('Experience lifecycle transitions can update specialized metadata', () => {
+  const created = createFixture();
+  const archived = transitionWorkbenchExperienceLifecycle({
+    experience: created.experience,
+    expected: 'active',
+    next: 'archived',
+    metadata: { title: 'Proof archived' },
+  });
+
+  assert.equal(archived.ok, true);
+  assert.deepEqual(archived.value.metadata, { title: 'Proof archived' });
+  assert.deepEqual(created.experience.metadata, { title: 'Proof' });
+});
+
 function createFixture() {
   return createWorkbenchExperience({
     experienceId: defineExperienceIdentity('experience:proof'),
