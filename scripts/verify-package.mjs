@@ -39,7 +39,7 @@ if (process.platform === 'win32') {
 const [packed] = JSON.parse(output);
 const files = packed.files.map(file => file.path).sort();
 assert.deepEqual(checkCompiledPackageFiles(files), { unexpected: [], missing: [] });
-assert.equal(files.length, 396);
+assert.equal(files.length, 398);
 const archive = join(evidence, packed.filename);
 const bytes = readFileSync(archive);
 assert.equal(packed.integrity, `sha512-${createHash('sha512').update(bytes).digest('base64')}`);
@@ -74,6 +74,7 @@ run(process.execPath, ['--input-type=module', '-e', `
   assert.deepEqual(root.validateWorkspace(root.createWorkspace()), []);
   assert.equal(typeof physics.PhysicsService, 'function');
   assert.equal(typeof root.admitWorkspaceUsageBundle, 'function');
+  assert.equal(typeof root.createWorkspaceExperiencePresetBinding, 'function');
 `], consumer);
 
 console.log(JSON.stringify({

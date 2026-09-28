@@ -17,6 +17,8 @@ npm install @konitif/workbench
 - Project preflight and repository-quality contracts.
 - Explicit workspace persistence, synchronization and surface ports.
 - Content-addressed workspace usage bundles with strict host-context admission.
+- Abstract Experience revisions that bind presets by immutable content reference
+  or by an explicit, traceable override.
 
 ## Authority boundary
 
@@ -30,6 +32,12 @@ Workspace presets remain authored source. A usage bundle records an immutable,
 content-addressed projection of a preset and its workspace, shell and focus
 fragments. Admission rejects altered content, incomplete fragments, incompatible
 host contexts and identity/revision conflicts.
+
+An Experience is a Workbench authority: it records the stable identity and
+revision lineage of an experimentation arrangement without absorbing the
+domain that specializes it. A product can reference an authored workspace
+preset unchanged or declare an override with ordered transformation records;
+admission always verifies the referenced canonical content.
 
 ## Quick start
 
