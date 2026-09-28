@@ -219,6 +219,32 @@
       ]
     },
     {
+      "id": "experience-application",
+      "title": "Experience lifecycle",
+      "summary": "Content-bound Experience revisions, drafts, lifecycle transitions, conflicts, and storage-neutral repository ports.",
+      "authority": "Reusable Experience identity, revision lineage, lifecycle and persistence boundary.",
+      "owns": [
+        "Experience drafts",
+        "head conflict detection",
+        "archive restore and tombstone transitions",
+        "repository ports"
+      ],
+      "doesNotOwn": [
+        "product specialization",
+        "browser or remote storage",
+        "tenant authorization"
+      ],
+      "workflow": [
+        "Draft",
+        "Save",
+        "Resolve",
+        "Transition"
+      ],
+      "sourcePrefixes": [
+        "application/experience/"
+      ]
+    },
+    {
       "id": "runtime-application",
       "title": "Runtime application",
       "summary": "Plans, observations, checkpoints, and offload for the Workbench runtime.",
