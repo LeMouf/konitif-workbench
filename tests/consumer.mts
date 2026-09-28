@@ -3,10 +3,12 @@ import {
   admitWorkspaceUsageBundle,
   createBrowserWorkbenchExperienceRepository,
   projectWorkbenchWidgetZone,
+  resolveTabbedShellRegionVisibilityIntent,
   createWorkspaceExperiencePresetBinding,
   createWorkspace,
   type WorkbenchExperienceRevision,
   type WorkbenchWidgetZoneProjection,
+  type TabbedShellRegionVisibilityIntent,
   type ToolDefinition,
   type Workspace,
 } from '@konitif/workbench';
@@ -41,6 +43,17 @@ export function exercise(): Workspace {
     layoutEditingEnabled: true,
   });
   void widgetZoneProjection;
+  const tabbedVisibilityIntent: TabbedShellRegionVisibilityIntent =
+    resolveTabbedShellRegionVisibilityIntent({
+      id: 'right',
+      isVisible: true,
+      isOpen: true,
+      size: 320,
+      activeWidgetId: 'alpha',
+      widgetIds: ['alpha', 'beta'],
+      presentation: 'tabs',
+    }, 'alpha', true);
+  void tabbedVisibilityIntent;
   const experienceRevision = null as unknown as WorkbenchExperienceRevision;
   const experienceRepository = null as unknown as WorkbenchExperienceRepository;
   const experienceRepositoryResult = null as unknown as WorkbenchExperienceRepositoryResult<unknown>;
