@@ -1,6 +1,7 @@
 import {
   InMemoryToolRegistry,
   admitWorkspaceUsageBundle,
+  createBrowserWorkbenchExperienceRepository,
   createWorkspaceExperiencePresetBinding,
   createWorkspace,
   type WorkbenchExperienceRevision,
@@ -31,6 +32,7 @@ export function exercise(): Workspace {
   void registry; void definition; void createHostedWorkspace; void createWorkspaceFromContracts;
   void admitWorkspaceUsageBundle;
   void createWorkspaceExperiencePresetBinding;
+  void createBrowserWorkbenchExperienceRepository;
   const experienceRevision = null as unknown as WorkbenchExperienceRevision;
   const experienceRepository = null as unknown as WorkbenchExperienceRepository;
   const experienceRepositoryResult = null as unknown as WorkbenchExperienceRepositoryResult<unknown>;
