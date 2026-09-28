@@ -107,6 +107,7 @@ export function saveWorkbenchExperienceRevision<TMetadata, TSpecialization>(inpu
   draft: WorkbenchExperienceDraft<TSpecialization>;
   expectedHeadRevisionId: ExperienceRevisionIdentity;
   revisionId: ExperienceRevisionIdentity;
+  derivedFrom?: ExperienceRevisionIdentity | null;
   metadata?: TMetadata;
 }): ExperienceLifecycleResult<WorkbenchExperienceLifecycleValue<TMetadata, TSpecialization>> {
   if (input.experience.lifecycle !== 'active') {
@@ -154,7 +155,9 @@ export function saveWorkbenchExperienceRevision<TMetadata, TSpecialization>(inpu
       id: revisionId,
       experienceId: input.experience.id,
       parentRevisionId: input.draft.baseRevisionId,
-      derivedFrom: null,
+      derivedFrom: input.derivedFrom
+        ? defineExperienceRevisionIdentity(input.derivedFrom.value)
+        : null,
       preset: input.draft.preset,
       specialization: input.draft.specialization,
     },
