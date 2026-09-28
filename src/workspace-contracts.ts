@@ -169,6 +169,8 @@ export * from './application/workspace/usageSnapshots';
 export * from './application/launch/workbenchLaunchPolicy';
 export * from './application/tool/experienceToolSelection';
 export * from './application/experience/experienceArtifacts';
+export * from './application/experience/experienceLifecycle';
+export * from './application/experience/experienceRepository';
 export * from './application/workspace/unassignTool';
 export * from './application/workspace/parkedTool';
 export * from './application/workspace/workspacePresetCatalogAdmission';

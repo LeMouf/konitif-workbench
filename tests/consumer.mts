@@ -7,6 +7,10 @@ import {
   type ToolDefinition,
   type Workspace,
 } from '@konitif/workbench';
+import type {
+  WorkbenchExperienceRepository,
+  WorkbenchExperienceRepositoryResult,
+} from '@konitif/workbench';
 import { createWorkspace as createHostedWorkspace } from '@konitif/workbench/hosting';
 import {
   createWorkspace as createWorkspaceFromContracts,
@@ -28,7 +32,9 @@ export function exercise(): Workspace {
   void admitWorkspaceUsageBundle;
   void createWorkspaceExperiencePresetBinding;
   const experienceRevision = null as unknown as WorkbenchExperienceRevision;
-  void experienceRevision;
+  const experienceRepository = null as unknown as WorkbenchExperienceRepository;
+  const experienceRepositoryResult = null as unknown as WorkbenchExperienceRepositoryResult<unknown>;
+  void experienceRevision; void experienceRepository; void experienceRepositoryResult;
   const subject = null as unknown as PhysicsSubjectSource;
   const loadSubject = null as unknown as PhysicsServicePort['loadSubject'];
   void NoopPhysicsBackend; void PhysicsService; void subject; void loadSubject;

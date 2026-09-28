@@ -39,6 +39,12 @@ domain that specializes it. A product can reference an authored workspace
 preset unchanged or declare an override with ordered transformation records;
 admission always verifies the referenced canonical content.
 
+Workbench also owns the generic Experience lifecycle: an immutable revision
+opens into a draft bound to an explicit base, saving creates a new revision only
+when that base is still the current head, and archive, restore and tombstone
+transitions are explicit. The repository contract is storage-neutral; browser,
+remote, tenant and product-admission policies remain host adapters.
+
 ## Quick start
 
 ```ts
