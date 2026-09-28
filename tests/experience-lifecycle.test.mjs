@@ -75,6 +75,25 @@ test('Experience saves a next revision without mutating its base', () => {
   assert.equal(created.revision.preset.source.revision, '1.0.0');
 });
 
+test('Experience save preserves an explicit derivation reference independently of its parent', () => {
+  const created = createFixture();
+  const derivedFrom = defineExperienceRevisionIdentity('revision:source:7');
+  const saved = saveWorkbenchExperienceRevision({
+    experience: created.experience,
+    draft: createWorkbenchExperienceDraft({
+      draftId: defineExperienceDraftIdentity('draft:derived-proof'),
+      revision: created.revision,
+    }),
+    expectedHeadRevisionId: created.revision.id,
+    revisionId: defineExperienceRevisionIdentity('revision:proof:2'),
+    derivedFrom,
+  });
+
+  assert.equal(saved.ok, true);
+  assert.deepEqual(saved.value.revision.parentRevisionId, created.revision.id);
+  assert.deepEqual(saved.value.revision.derivedFrom, derivedFrom);
+});
+
 test('Experience refuses stale and cross-Experience drafts', () => {
   const created = createFixture();
   const draft = createWorkbenchExperienceDraft({
