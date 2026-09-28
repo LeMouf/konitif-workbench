@@ -13,6 +13,7 @@ npm install @konitif/workbench
 
 - Workspace, layout, panel and shell contracts.
 - Tool and widget admission, registries and hosting adapters.
+- Generic widget-zone visibility and placement-drop projection.
 - Runtime lifecycle, checkpoint, recovery and observability contracts.
 - Project preflight and repository-quality contracts.
 - Explicit workspace persistence, synchronization and surface ports.

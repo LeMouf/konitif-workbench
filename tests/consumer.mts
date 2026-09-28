@@ -2,9 +2,11 @@ import {
   InMemoryToolRegistry,
   admitWorkspaceUsageBundle,
   createBrowserWorkbenchExperienceRepository,
+  projectWorkbenchWidgetZone,
   createWorkspaceExperiencePresetBinding,
   createWorkspace,
   type WorkbenchExperienceRevision,
+  type WorkbenchWidgetZoneProjection,
   type ToolDefinition,
   type Workspace,
 } from '@konitif/workbench';
@@ -33,6 +35,12 @@ export function exercise(): Workspace {
   void admitWorkspaceUsageBundle;
   void createWorkspaceExperiencePresetBinding;
   void createBrowserWorkbenchExperienceRepository;
+  const widgetZoneProjection: WorkbenchWidgetZoneProjection = projectWorkbenchWidgetZone({
+    containerOpen: true,
+    visiblePlacementCount: 0,
+    layoutEditingEnabled: true,
+  });
+  void widgetZoneProjection;
   const experienceRevision = null as unknown as WorkbenchExperienceRevision;
   const experienceRepository = null as unknown as WorkbenchExperienceRepository;
   const experienceRepositoryResult = null as unknown as WorkbenchExperienceRepositoryResult<unknown>;
