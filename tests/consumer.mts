@@ -1,7 +1,9 @@
 import {
   InMemoryToolRegistry,
   admitWorkspaceUsageBundle,
+  createWorkspaceExperiencePresetBinding,
   createWorkspace,
+  type WorkbenchExperienceRevision,
   type ToolDefinition,
   type Workspace,
 } from '@konitif/workbench';
@@ -24,6 +26,9 @@ export function exercise(): Workspace {
   const definition = null as unknown as ToolDefinition;
   void registry; void definition; void createHostedWorkspace; void createWorkspaceFromContracts;
   void admitWorkspaceUsageBundle;
+  void createWorkspaceExperiencePresetBinding;
+  const experienceRevision = null as unknown as WorkbenchExperienceRevision;
+  void experienceRevision;
   const subject = null as unknown as PhysicsSubjectSource;
   const loadSubject = null as unknown as PhysicsServicePort['loadSubject'];
   void NoopPhysicsBackend; void PhysicsService; void subject; void loadSubject;

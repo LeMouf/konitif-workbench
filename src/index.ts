@@ -55,6 +55,7 @@ export * from './application/runtime/RuntimeProjectionSession';
 export * from './application/runtime/RuntimeProjectionViewerSessionSync';
 export * from './application/experiment/ControlledExperimentRecorder';
 export * from './application/experiment/ControlledExperimentCampaign';
+export * from './application/experience/experienceArtifacts';
 export * from './application/repository/RepositoryPreflightEngine';
 export * from './domain/layout/model';
 export * from './domain/layout/interaction';
