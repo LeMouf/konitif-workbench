@@ -168,6 +168,7 @@ export function transitionWorkbenchExperienceLifecycle<TMetadata>(input: {
   experience: WorkbenchExperience<TMetadata>;
   expected: Exclude<ExperienceLifecycleStatus, 'tombstoned'>;
   next: ExperienceLifecycleStatus;
+  metadata?: TMetadata;
 }): ExperienceLifecycleResult<WorkbenchExperience<TMetadata>> {
   if (input.experience.lifecycle === 'tombstoned') {
     return refused(
@@ -197,7 +198,11 @@ export function transitionWorkbenchExperienceLifecycle<TMetadata>(input: {
       input.next,
     );
   }
-  return accepted({ ...input.experience, lifecycle: input.next });
+  return accepted({
+    ...input.experience,
+    lifecycle: input.next,
+    metadata: input.metadata ?? input.experience.metadata,
+  });
 }
 
 function isAllowedTransition(

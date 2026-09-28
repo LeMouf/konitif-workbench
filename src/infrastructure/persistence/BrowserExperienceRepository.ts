@@ -33,6 +33,15 @@ interface StoredWorkbenchExperienceRepository<TMetadata, TSpecialization> {
   revisions: WorkbenchExperienceRevision<TSpecialization>[];
 }
 
+export interface BrowserWorkbenchExperienceRepository<TMetadata = unknown, TSpecialization = unknown>
+  extends WorkbenchExperienceRepository<TMetadata, TSpecialization> {
+  initialize(
+    snapshot: WorkbenchExperienceRepositorySnapshot<TMetadata, TSpecialization>,
+  ): Promise<WorkbenchExperienceRepositoryResult<
+    WorkbenchExperienceRepositorySnapshot<TMetadata, TSpecialization>
+  >>;
+}
+
 /**
  * Browser persistence adapter for the generic Workbench Experience authority.
  * Products choose the storage key and keep migration and specialization policy
@@ -44,12 +53,23 @@ export function createBrowserWorkbenchExperienceRepository<
 >(input: {
   storageKey: string;
   storage?: BrowserExperienceRepositoryStorage | null;
-}): WorkbenchExperienceRepository<TMetadata, TSpecialization> {
+}): BrowserWorkbenchExperienceRepository<TMetadata, TSpecialization> {
   const storage = input.storage === undefined ? resolveBrowserStorage() : input.storage;
   const storageKey = requireStorageKey(input.storageKey);
 
   return {
     hydrate: () => hydrate<TMetadata, TSpecialization>(storage, storageKey),
+    async initialize(snapshot) {
+      const current = await hydrate<TMetadata, TSpecialization>(storage, storageKey);
+      if (!current.ok) return current;
+      if (current.value.experiences.length > 0 || current.value.revisions.length > 0) {
+        return refused('experience.repository.already-exists', 'Browser Experience repository is already initialized.');
+      }
+      if (!isRepositorySnapshot<TMetadata, TSpecialization>(snapshot)) {
+        return refused('experience.repository.invalid-artifact', 'Initial Experience snapshot does not match the Workbench contract.');
+      }
+      return persist(storage, storageKey, snapshot);
+    },
     async list() {
       const snapshot = await hydrate<TMetadata, TSpecialization>(storage, storageKey);
       return snapshot.ok ? accepted(snapshot.value.experiences) : snapshot;
@@ -119,6 +139,7 @@ export function createBrowserWorkbenchExperienceRepository<
         experience,
         expected: value.expected,
         next: value.next,
+        metadata: value.metadata,
       });
       if (!transitioned.ok) return lifecycleRefused(transitioned.diagnostics[0]);
       const persisted = persist(storage, storageKey, {
@@ -195,6 +216,13 @@ function isStoredRepository<TMetadata, TSpecialization>(
     || !Array.isArray(value.experiences)
     || !Array.isArray(value.revisions)
   ) return false;
+  return isRepositorySnapshot<TMetadata, TSpecialization>(value);
+}
+
+function isRepositorySnapshot<TMetadata, TSpecialization>(
+  value: unknown,
+): value is WorkbenchExperienceRepositorySnapshot<TMetadata, TSpecialization> {
+  if (!isRecord(value) || !Array.isArray(value.experiences) || !Array.isArray(value.revisions)) return false;
   const experiences = value.experiences as unknown[];
   const revisions = value.revisions as unknown[];
   if (!experiences.every(isWorkbenchExperience) || !revisions.every(isWorkbenchExperienceRevision)) return false;
@@ -204,6 +232,10 @@ function isStoredRepository<TMetadata, TSpecialization>(
     && isIdentity(revision.id, 'experience-revision')
     && revision.experienceId.value === (experience as WorkbenchExperience<unknown>).id.value
     && revision.id.value === (experience as WorkbenchExperience<unknown>).headRevisionId.value
+  )) && revisions.every(revision => experiences.some(experience =>
+    isRecord(revision)
+    && isIdentity(revision.experienceId, 'experience')
+    && revision.experienceId.value === (experience as WorkbenchExperience<unknown>).id.value
   ));
 }
 

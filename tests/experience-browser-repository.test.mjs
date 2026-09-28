@@ -53,9 +53,11 @@ test('browser repository owns generic Experience persistence and lifecycle', asy
     experienceId: created.experience.id,
     expected: 'active',
     next: 'archived',
+    metadata: { title: 'Proof archived' },
   });
   assert.equal(archived.ok, true);
   assert.equal(archived.value.lifecycle, 'archived');
+  assert.equal(archived.value.metadata.title, 'Proof archived');
 
   const reloaded = createBrowserWorkbenchExperienceRepository({
     storageKey: 'proof.experiences',
@@ -65,6 +67,32 @@ test('browser repository owns generic Experience persistence and lifecycle', asy
   assert.equal(snapshot.ok, true);
   assert.equal(snapshot.value.experiences[0].headRevisionId.value, 'revision:proof:2');
   assert.equal(snapshot.value.revisions.length, 2);
+});
+
+test('browser repository initializes one validated migration snapshot without replaying history', async () => {
+  const storage = createMemoryStorage();
+  const repository = createBrowserWorkbenchExperienceRepository({
+    storageKey: 'proof.experiences',
+    storage,
+  });
+  const created = createFixture();
+  const imported = await repository.initialize({
+    experiences: [created.experience],
+    revisions: [
+      created.revision,
+      {
+        ...created.revision,
+        id: defineExperienceRevisionIdentity('revision:proof:branch'),
+        parentRevisionId: created.revision.id,
+      },
+    ],
+  });
+
+  assert.equal(imported.ok, true);
+  assert.equal(imported.value.revisions.length, 2);
+  const duplicate = await repository.initialize(imported.value);
+  assert.equal(duplicate.ok, false);
+  assert.equal(duplicate.error.code, 'experience.repository.already-exists');
 });
 
 test('browser repository refuses stale writes and malformed stored artifacts', async () => {

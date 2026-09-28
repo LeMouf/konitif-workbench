@@ -66,5 +66,6 @@ export interface WorkbenchExperienceRepository<TMetadata = unknown, TSpecializat
     experienceId: ExperienceIdentity;
     expected: Exclude<ExperienceLifecycleStatus, 'tombstoned'>;
     next: ExperienceLifecycleStatus;
+    metadata?: TMetadata;
   }): Promise<WorkbenchExperienceRepositoryResult<WorkbenchExperience<TMetadata>>>;
 }
