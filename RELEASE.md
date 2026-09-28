@@ -65,3 +65,10 @@ Version `0.285.2` republishes the identical contract surface after npm accepted
 the `0.285.1` metadata during a registry incident without making its tarball
 available. Consumers must use `0.285.2`; the unavailable `0.285.1` version is
 not a valid delivery artifact.
+
+## Widget-zone projection
+
+Version `0.285.9` adds the generic, renderer-independent projection that maps a
+widget zone's open state, visible placements and layout-editing mode to its
+visibility and placement-drop affordance. Hosted products retain their zone
+definitions, placements, registries and rendering policy.

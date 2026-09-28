@@ -2,6 +2,7 @@ export * from './boot';
 export * from './application/launch/workbenchLaunchPolicy';
 export * from './application/launch/catalogShareReference';
 export * from './application/widgets/createWorkbenchWidgetAdapter';
+export * from './application/widgets/widgetZoneProjection';
 export * from './application/tool/experienceToolSelection';
 export * from './stage';
 export * from './application/shell/state';
