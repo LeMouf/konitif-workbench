@@ -1,6 +1,10 @@
 // Explicit workspace contracts for state orchestration. No host adapters.
 // Reexports preserve the authority and identity of the existing implementations.
 export {
+  admitShellWidgetPlacementPreservingRegionState,
+  isShellWidgetAlreadyPlaced
+} from './application/widgets/rootShellWidgetAdmission';
+export {
   setShellRegionArrangement,
   setShellRegionWidgetProportions,
   createShellState,
