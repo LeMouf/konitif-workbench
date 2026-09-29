@@ -15,6 +15,8 @@ npm install @konitif/workbench
 - Tool and widget admission, registries and hosting adapters.
 - Generic widget-zone visibility and placement-drop projection.
 - Generic tabbed-region visibility coordination for grouped widgets.
+- Atomic visibility normalization for internal tool docks sharing a region.
+- Root Widget admission that preserves restored region state.
 - Runtime lifecycle, checkpoint, recovery and observability contracts.
 - Project preflight and repository-quality contracts.
 - Explicit workspace persistence, synchronization and surface ports.

@@ -111,7 +111,10 @@
         "projectWorkbenchWidgetZone",
         "WorkbenchWidgetZoneProjection",
         "resolveTabbedShellRegionVisibilityIntent",
-        "TabbedShellRegionVisibilityIntent"
+        "TabbedShellRegionVisibilityIntent",
+        "normalizeGroupedWorkbenchToolDockVisibility",
+        "WorkbenchGroupedToolDockConfig",
+        "admitShellWidgetPlacementPreservingRegionState"
       ]
     },
     {

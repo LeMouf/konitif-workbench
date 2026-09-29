@@ -1,8 +1,10 @@
 import {
   InMemoryToolRegistry,
+  admitShellWidgetPlacementPreservingRegionState,
   admitWorkspaceUsageBundle,
   createBrowserWorkbenchExperienceRepository,
   projectWorkbenchWidgetZone,
+  normalizeGroupedWorkbenchToolDockVisibility,
   resolveTabbedShellRegionVisibilityIntent,
   createWorkspaceExperiencePresetBinding,
   createWorkspace,
@@ -35,6 +37,8 @@ export function exercise(): Workspace {
   const definition = null as unknown as ToolDefinition;
   void registry; void definition; void createHostedWorkspace; void createWorkspaceFromContracts;
   void admitWorkspaceUsageBundle;
+  void admitShellWidgetPlacementPreservingRegionState;
+  void normalizeGroupedWorkbenchToolDockVisibility;
   void createWorkspaceExperiencePresetBinding;
   void createBrowserWorkbenchExperienceRepository;
   const widgetZoneProjection: WorkbenchWidgetZoneProjection = projectWorkbenchWidgetZone({
