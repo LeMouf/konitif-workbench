@@ -81,3 +81,6 @@ Widget without replacing the active Widget or reopening a restored closed
 region. Root-managed Widgets remain independent from their former internal
 group. Hosted products retain their Widget identities, domain state, placement
 policy and rendering.
+
+
+Version `0.285.11` centralizes root-managed Tool dock discovery and Shell root-location projection in Workbench, so applications no longer infer Shell authority before Tool state updates.

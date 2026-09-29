@@ -1,4 +1,4 @@
-import type { ShellRegionId, ShellRegionPresentation } from '../shell/model';
+import type { ShellRegionId, ShellRegionPresentation, ShellState } from '../shell/model';
 import type { JsonObject } from '../shared/json';
 
 export type WorkbenchToolDockActionSide = 'top' | 'right' | 'bottom' | 'left';
@@ -11,6 +11,7 @@ export interface WorkbenchToolDockVisibilityConfig {
 
 export interface WorkbenchGroupedToolDockConfig extends WorkbenchToolDockVisibilityConfig {
   defaultRegionId: ShellRegionId;
+  rootWidgetId?: string | null;
 }
 
 export interface WorkbenchToolDockRootConfig extends WorkbenchToolDockVisibilityConfig {
@@ -25,6 +26,7 @@ export interface WorkbenchToolDockRootLocation {
   isOpen: boolean;
   activeWidgetId: string | null;
   presentation?: ShellRegionPresentation;
+  size?: number;
 }
 
 export function resolveWorkbenchToolDockSide(
@@ -76,6 +78,30 @@ export function resolveWorkbenchToolDockEffectiveVisibility(input: {
   return location.isVisible && location.isOpen && (
     location.presentation === 'stack' || location.activeWidgetId === input.widgetId
   );
+}
+
+export function resolveWorkbenchToolDockRootLocation(
+  shellState: ShellState,
+  widgetId: string
+): WorkbenchToolDockRootLocation | null {
+  const regionIds: ShellRegionId[] = ['left', 'right', 'bottom'];
+
+  for (const regionId of regionIds) {
+    const region = shellState.regions[regionId];
+
+    if (region.widgetIds.includes(widgetId)) {
+      return {
+        regionId,
+        isVisible: region.isVisible && !(region.hiddenWidgetIds ?? []).includes(widgetId),
+        isOpen: region.isOpen,
+        activeWidgetId: region.activeWidgetId,
+        presentation: region.presentation ?? 'tabs',
+        size: region.size
+      };
+    }
+  }
+
+  return null;
 }
 
 export function patchWorkbenchToolDockVisibilityState(
@@ -147,6 +173,28 @@ export function normalizeGroupedWorkbenchToolDockVisibility(
       isVisible
     }),
     requestedState
+  );
+}
+
+export function normalizeGroupedWorkbenchToolDockVisibilityForShellState(
+  currentState: JsonObject,
+  requestedState: JsonObject,
+  docks: readonly WorkbenchGroupedToolDockConfig[],
+  shellState: ShellState
+): JsonObject {
+  const rootManagedDockIds = new Set(
+    docks.flatMap((dock) =>
+      dock.rootWidgetId && resolveWorkbenchToolDockRootLocation(shellState, dock.rootWidgetId)
+        ? [dock.dockId]
+        : []
+    )
+  );
+
+  return normalizeGroupedWorkbenchToolDockVisibility(
+    currentState,
+    requestedState,
+    docks,
+    rootManagedDockIds
   );
 }
 
