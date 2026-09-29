@@ -109,7 +109,12 @@
         "createWorkbenchWidgetAdapter",
         "WorkbenchWidgetHosting",
         "projectWorkbenchWidgetZone",
-        "WorkbenchWidgetZoneProjection"
+        "WorkbenchWidgetZoneProjection",
+        "resolveTabbedShellRegionVisibilityIntent",
+        "TabbedShellRegionVisibilityIntent",
+        "normalizeGroupedWorkbenchToolDockVisibility",
+        "WorkbenchGroupedToolDockConfig",
+        "admitShellWidgetPlacementPreservingRegionState"
       ]
     },
     {

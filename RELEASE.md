@@ -72,3 +72,12 @@ Version `0.285.9` adds the generic, renderer-independent projection that maps a
 widget zone's open state, visible placements and layout-editing mode to its
 visibility and placement-drop affordance. Hosted products retain their zone
 definitions, placements, registries and rendering policy.
+
+## Widget visibility and root admission
+
+Version `0.285.10` coordinates tabbed root-region visibility, atomically
+normalizes internal tool docks that share a region and admits a missing root
+Widget without replacing the active Widget or reopening a restored closed
+region. Root-managed Widgets remain independent from their former internal
+group. Hosted products retain their Widget identities, domain state, placement
+policy and rendering.

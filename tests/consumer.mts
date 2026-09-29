@@ -1,12 +1,16 @@
 import {
   InMemoryToolRegistry,
+  admitShellWidgetPlacementPreservingRegionState,
   admitWorkspaceUsageBundle,
   createBrowserWorkbenchExperienceRepository,
   projectWorkbenchWidgetZone,
+  normalizeGroupedWorkbenchToolDockVisibility,
+  resolveTabbedShellRegionVisibilityIntent,
   createWorkspaceExperiencePresetBinding,
   createWorkspace,
   type WorkbenchExperienceRevision,
   type WorkbenchWidgetZoneProjection,
+  type TabbedShellRegionVisibilityIntent,
   type ToolDefinition,
   type Workspace,
 } from '@konitif/workbench';
@@ -33,6 +37,8 @@ export function exercise(): Workspace {
   const definition = null as unknown as ToolDefinition;
   void registry; void definition; void createHostedWorkspace; void createWorkspaceFromContracts;
   void admitWorkspaceUsageBundle;
+  void admitShellWidgetPlacementPreservingRegionState;
+  void normalizeGroupedWorkbenchToolDockVisibility;
   void createWorkspaceExperiencePresetBinding;
   void createBrowserWorkbenchExperienceRepository;
   const widgetZoneProjection: WorkbenchWidgetZoneProjection = projectWorkbenchWidgetZone({
@@ -41,6 +47,17 @@ export function exercise(): Workspace {
     layoutEditingEnabled: true,
   });
   void widgetZoneProjection;
+  const tabbedVisibilityIntent: TabbedShellRegionVisibilityIntent =
+    resolveTabbedShellRegionVisibilityIntent({
+      id: 'right',
+      isVisible: true,
+      isOpen: true,
+      size: 320,
+      activeWidgetId: 'alpha',
+      widgetIds: ['alpha', 'beta'],
+      presentation: 'tabs',
+    }, 'alpha', true);
+  void tabbedVisibilityIntent;
   const experienceRevision = null as unknown as WorkbenchExperienceRevision;
   const experienceRepository = null as unknown as WorkbenchExperienceRepository;
   const experienceRepositoryResult = null as unknown as WorkbenchExperienceRepositoryResult<unknown>;

@@ -9,6 +9,10 @@ export interface WorkbenchToolDockVisibilityConfig {
   defaultVisible?: boolean;
 }
 
+export interface WorkbenchGroupedToolDockConfig extends WorkbenchToolDockVisibilityConfig {
+  defaultRegionId: ShellRegionId;
+}
+
 export interface WorkbenchToolDockRootConfig extends WorkbenchToolDockVisibilityConfig {
   commandId: string;
   widgetId: string;
@@ -98,6 +102,52 @@ export function patchWorkbenchToolDockVisibilityState(
   }
 
   return nextState;
+}
+
+/**
+ * Normalizes the single-dock visibility request emitted by a tabbed tool dock
+ * into one atomic state snapshot for every dock sharing the same region.
+ * Docks projected into a root shell region remain independently managed.
+ */
+export function normalizeGroupedWorkbenchToolDockVisibility(
+  currentState: JsonObject,
+  requestedState: JsonObject,
+  docks: readonly WorkbenchGroupedToolDockConfig[],
+  individuallyManagedDockIds: ReadonlySet<string> = new Set()
+): JsonObject {
+  const changedDocks = docks.filter(
+    (dock) =>
+      readWorkbenchToolDockVisibility(currentState, dock) !==
+      readWorkbenchToolDockVisibility(requestedState, dock)
+  );
+
+  if (changedDocks.length !== 1) {
+    return requestedState;
+  }
+
+  const changedDock = changedDocks[0];
+
+  if (individuallyManagedDockIds.has(changedDock.dockId)) {
+    return requestedState;
+  }
+
+  const groupedDocks = docks.filter(
+    (dock) => dock.defaultRegionId === changedDock.defaultRegionId
+  );
+
+  if (groupedDocks.length < 2) {
+    return requestedState;
+  }
+
+  const isVisible = readWorkbenchToolDockVisibility(requestedState, changedDock);
+
+  return groupedDocks.reduce<JsonObject>(
+    (state, dock) => patchWorkbenchToolDockVisibilityState(state, {
+      ...dock,
+      isVisible
+    }),
+    requestedState
+  );
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

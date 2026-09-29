@@ -39,7 +39,7 @@ if (process.platform === 'win32') {
 const [packed] = JSON.parse(output);
 const files = packed.files.map(file => file.path).sort();
 assert.deepEqual(checkCompiledPackageFiles(files), { unexpected: [], missing: [] });
-assert.equal(files.length, 406);
+assert.equal(files.length, 410);
 const archive = join(evidence, packed.filename);
 const bytes = readFileSync(archive);
 assert.equal(packed.integrity, `sha512-${createHash('sha512').update(bytes).digest('base64')}`);
@@ -80,6 +80,13 @@ run(process.execPath, ['--input-type=module', '-e', `
   assert.equal(typeof root.transitionWorkbenchExperienceLifecycle, 'function');
   assert.equal(typeof root.createBrowserWorkbenchExperienceRepository, 'function');
   assert.equal(typeof root.projectWorkbenchWidgetZone, 'function');
+  assert.equal(typeof root.resolveTabbedShellRegionVisibilityIntent, 'function');
+  assert.equal(typeof root.normalizeGroupedWorkbenchToolDockVisibility, 'function');
+  assert.equal(typeof root.admitShellWidgetPlacementPreservingRegionState, 'function');
+  assert.equal(
+    root.admitShellWidgetPlacementPreservingRegionState,
+    contracts.admitShellWidgetPlacementPreservingRegionState,
+  );
 `], consumer);
 
 console.log(JSON.stringify({
