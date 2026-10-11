@@ -103,7 +103,8 @@
       "sourcePrefixes": [
         "domain/tool/",
         "domain/widget/",
-        "domain/surface/"
+        "domain/surface/",
+        "application/widgets/"
       ],
       "symbolNames": [
         "createWorkbenchWidgetAdapter",
@@ -249,6 +250,9 @@
       ],
       "sourcePrefixes": [
         "application/experience/"
+      ],
+      "sources": [
+        "application/tool/experienceToolSelection.ts"
       ]
     },
     {
@@ -387,6 +391,52 @@
       "sourcePrefixes": [
         "boot/",
         "stage/"
+      ]
+    },
+    {
+      "id": "catalog-domain",
+      "title": "Catalog identity and presentation",
+      "summary": "Describe versioned catalog elements and their inspectable presentations.",
+      "authority": "Catalog metadata and version contracts.",
+      "owns": [
+        "element versions",
+        "media and dependency descriptions",
+        "explanatory diagrams"
+      ],
+      "doesNotOwn": [
+        "artifact admission",
+        "runtime execution"
+      ],
+      "workflow": [
+        "Describe",
+        "Version",
+        "Inspect"
+      ],
+      "sourcePrefixes": [
+        "domain/catalog/"
+      ]
+    },
+    {
+      "id": "launch-application",
+      "title": "Launch and shared references",
+      "summary": "Resolve a launch mode and report admission blockers from library and dashboard inputs.",
+      "authority": "Launch policy results, not execution or remote storage.",
+      "owns": [
+        "launch mode resolution",
+        "share reference encoding",
+        "admission diagnostics"
+      ],
+      "doesNotOwn": [
+        "runtime effects",
+        "remote service authority"
+      ],
+      "workflow": [
+        "Resolve",
+        "Inspect blockers",
+        "Request admission"
+      ],
+      "sourcePrefixes": [
+        "application/launch/"
       ]
     }
   ]
