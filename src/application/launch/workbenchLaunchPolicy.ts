@@ -17,6 +17,8 @@ export interface WorkbenchDashboardEntry<Selection = unknown> {
   eyebrow: string;
   description: string;
   actionLabel: string;
+  /** Current host occurrence, matched by identity rather than display name. */
+  active?: boolean;
   selection: Selection;
   detail?: string;
   preview?: WorkbenchDashboardPreview;
