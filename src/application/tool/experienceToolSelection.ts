@@ -11,6 +11,11 @@ export class WorkbenchExperienceToolSelection {
     for (const toolId of initialToolIds) this.select(toolId);
   }
 
+  /** Enroll host-admitted registrations in the same catalog used by selection. */
+  registerAvailableTool(entry: RegisteredTool): void {
+    if (!this.availableRegistry.get(entry.definition.id)) this.availableRegistry.register(cloneRegistration(entry));
+  }
+
   listAvailable(): ToolDefinition[] {
     return this.availableRegistry.list().map(entry => entry.definition);
   }

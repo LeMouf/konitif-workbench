@@ -126,3 +126,10 @@ export * from './infrastructure/widgets/InMemoryShellWidgetRegistry';
 export * from './infrastructure/widgets/InMemoryWorkbenchWidgetRegistry';
 export * from './temporal';
 export * from './application/workspace/usageSnapshots';
+
+export * from './application/experience/experienceTransfer';
+export * from './application/experience/experienceQr';
+
+export type {WorkbenchUserDataProjection} from './application/experience/workbenchUserDataProjection';
+
+export type {WorkbenchActionLogEntry} from './application/experience/workbenchActionLog';
