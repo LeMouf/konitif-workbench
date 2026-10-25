@@ -67,3 +67,6 @@ export function exercise(): Workspace {
   void NoopPhysicsBackend; void PhysicsService; void subject; void loadSubject;
   return workspace;
 }
+
+import {createCompositionTemporalProjectionReader} from '@konitif/workbench';
+createCompositionTemporalProjectionReader();
