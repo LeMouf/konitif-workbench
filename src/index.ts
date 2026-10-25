@@ -133,3 +133,7 @@ export * from './application/experience/experienceQr';
 export type {WorkbenchUserDataProjection} from './application/experience/workbenchUserDataProjection';
 
 export type {WorkbenchActionLogEntry} from './application/experience/workbenchActionLog';
+
+export * from './temporal/compositionTemporalProjection';
+export * from './temporal/bufferCoverage';
+export * from './temporal/authoredBufferPrefill';

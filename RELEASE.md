@@ -84,3 +84,7 @@ policy and rendering.
 
 
 Version `0.285.11` centralizes root-managed Tool dock discovery and Shell root-location projection in Workbench, so applications no longer infer Shell authority before Tool state updates.
+
+## Shared temporal buffer readers
+
+Version `0.285.14` adds a composition-owned indexed history reader, authored prefill in bounded yielding batches, and evidence-only buffer coverage. The reader can distinguish authored and simulated stages, refuses missing physical body observations and oversized interpolation gaps, and accepts an injected metadata interpolation strategy. It owns no playback clock or engine execution. Scene models and articulated-model descriptions remain hosted domain resources outside Workbench.

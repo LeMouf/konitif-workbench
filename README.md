@@ -85,3 +85,7 @@ authorities even when projected by the same application shell.
 
 Source-available under [PolyForm Noncommercial 1.0.0](LICENSE.md), not OSI open
 source. Commercial use requires separate written authorization.
+
+## Temporal buffer projections
+
+`createCompositionTemporalProjectionReader` reads the composition-owned runtime history at an explicit cursor. `projectTemporalBufferCoverage` exposes coverage evidence without owning poses or replay. `prefillAuthoredClipBuffer` prepares authored samples in bounded batches with cancellation and yielding supplied by the composition. Playback and scrub read the same history; these helpers create no independent clock and do not execute an engine.
