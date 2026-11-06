@@ -10,6 +10,11 @@ import type { WorkbenchReadingLevel } from '../../domain/presentation/readingLev
 import type { WorkspaceFocus } from './session';
 
 export interface ToolRuntimeHostActions {
+  /** Apply a dock intent against the runtime's current Tool state, atomically. */
+  setToolDockVisibility?(
+    toolInstanceId: string,
+    input: { dockId: string; legacyVisibleKey?: string | null; isVisible: boolean }
+  ): boolean;
   updateToolState(toolInstanceId: string, nextState: JsonObject): boolean;
   setToolPanelTitleOverride(panelId: string, toolInstanceId: string, nextTitle: string | null): boolean;
   setToolShellStatus(toolInstanceId: string, nextStatus: ToolShellStatus | null): boolean;
