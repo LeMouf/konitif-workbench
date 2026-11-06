@@ -13,6 +13,8 @@ import {
   type TabbedShellRegionVisibilityIntent,
   type ToolDefinition,
   type Workspace,
+  type WorkbenchDashboardEntry,
+  type ToolRuntimeHostActions,
 } from '@konitif/workbench';
 import type {
   WorkbenchExperienceRepository,
@@ -29,6 +31,34 @@ import {
   type PhysicsServicePort,
   type PhysicsSubjectSource,
 } from '@konitif/workbench/physics-runtime';
+
+// Old hosts and entries remain valid while new projections can use optional metadata.
+export function exerciseDashboardContract(
+  legacyHost: Omit<ToolRuntimeHostActions, 'setToolDockVisibility'>,
+  host: ToolRuntimeHostActions,
+): WorkbenchDashboardEntry<{ revisionId: string }> {
+  const compatibleHost: ToolRuntimeHostActions = legacyHost;
+  const entry: WorkbenchDashboardEntry<{ revisionId: string }> = {
+    id: 'experience.proof',
+    title: 'Proof',
+    eyebrow: 'Saved experience',
+    description: 'Display metadata does not replace revision identity.',
+    actionLabel: 'Open',
+    selection: { revisionId: 'revision.proof' },
+  };
+  const withMetadata: typeof entry = {
+    ...entry, version: '1.0.1', tags: ['proof'], canSave: false,
+  };
+  host.setToolDockVisibility?.('tool.proof', {
+    dockId: 'controls', isVisible: false, legacyVisibleKey: null,
+  });
+  // @ts-expect-error Dock intents require an explicit target.
+  host.setToolDockVisibility?.('tool.proof', { isVisible: false });
+  // @ts-expect-error Revision labels must remain textual presentation metadata.
+  const invalid: typeof entry = { ...entry, version: 42 };
+  void compatibleHost; void invalid;
+  return withMetadata;
+}
 
 export function exercise(): Workspace {
   const workspace = createWorkspace();

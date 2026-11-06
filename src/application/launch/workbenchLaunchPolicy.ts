@@ -21,6 +21,12 @@ export interface WorkbenchDashboardEntry<Selection = unknown> {
   active?: boolean;
   selection: Selection;
   detail?: string;
+  /** Saved revision label for display; identity remains id and selection. */
+  version?: string;
+  /** Host-supplied descriptive tags, never an admission or identity criterion. */
+  tags?: readonly string[];
+  /** Host-projected availability; saving is still admitted by the host. */
+  canSave?: boolean;
   preview?: WorkbenchDashboardPreview;
 }
 
