@@ -188,3 +188,4 @@ export { patchWorkbenchToolDockVisibilityState } from './domain/widget/toolDock'
 export type { ToolDefinition, ToolInstance, ToolCatalogPort } from './domain/tool/model';
 export type { ShellWidgetCatalogPort } from './domain/shell/model';
 export { InMemoryToolRegistry } from './infrastructure/tools/InMemoryToolRegistry';
+export * from './application/experience/experienceScreens';
