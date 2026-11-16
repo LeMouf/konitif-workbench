@@ -189,3 +189,4 @@ export type { ToolDefinition, ToolInstance, ToolCatalogPort } from './domain/too
 export type { ShellWidgetCatalogPort } from './domain/shell/model';
 export { InMemoryToolRegistry } from './infrastructure/tools/InMemoryToolRegistry';
 export * from './application/experience/experienceScreens';
+export * from './application/experience/experienceLibraryFolders';
